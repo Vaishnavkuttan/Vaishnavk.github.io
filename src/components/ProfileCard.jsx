@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTilt } from '../hooks/useTilt';
+import profileImg from '../assets/Vaishnav.png';
 
 const ProfileCard = ({ onEnter }) => {
     // Determine if we want to reverse logic or just tune sensitivity
@@ -26,7 +27,7 @@ const ProfileCard = ({ onEnter }) => {
 
             {/* 2. The Background Image */}
             <div className="profile-card-full-img">
-                <img src="/src/assets/Vaishnav.png" alt="Vaishnav Profile" onError={(e) => { e.target.src = 'https://placehold.co/500x700/0f172a/FFF?text=Vaishnav'; }} />
+                <img src={profileImg} alt="Vaishnav Profile" onError={(e) => { e.target.src = 'https://placehold.co/500x700/0f172a/FFF?text=Vaishnav'; }} />
             </div>
 
             {/* 3. Status Badge */}
