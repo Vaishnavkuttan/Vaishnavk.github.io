@@ -1,0 +1,96 @@
+.section-title {
+    text-align: center;
+    margin: 100px 0 50px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 1.8rem;
+    color: var(--text-main);
+    text-shadow: 0 0 20px var(--glass-border);
+}
+
+/* --- CAROUSEL STYLES --- */
+.carousel-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow-x: auto;
+    display: flex;
+    gap: 30px;
+    padding: 40px 20px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.carousel-container::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel-card {
+    min-width: 380px;
+    max-width: 380px;
+    scroll-snap-align: center;
+    flex-shrink: 0;
+    position: relative;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-top: 1px solid var(--glass-highlight);
+    padding: 40px;
+    box-shadow: var(--glass-shadow);
+    transition: transform 0.3s ease;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 16px;
+    /* Added missing radius */
+}
+
+/* Star Border (Simplified here, or import base styles) */
+/* Ideally we reuse the SpotlightCard logic or duplicated styles. 
+   For now, I'll duplicate the basics or just rely on simple hover */
+
+.carousel-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--bento-border-hover);
+}
+
+.carousel-date {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    display: block;
+    font-weight: 600;
+}
+
+.carousel-role {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.3;
+    color: var(--text-main);
+}
+
+.carousel-company {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--accent);
+    /* Accent color for emphasis */
+    margin-bottom: 25px;
+}
+
+:global([data-theme="light"]) .carousel-company {
+    color: #0f172a;
+}
+
+.carousel-desc {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+.carousel-desc ul {
+    padding-left: 20px;
+    list-style-type: disc;
+}

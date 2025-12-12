@@ -1,0 +1,187 @@
+/* ABOUT SECTION */
+.about {
+    padding: 100px 0;
+    text-align: center;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.about-text {
+    max-width: 900px;
+    margin: 0 auto 60px;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.professionalSummary {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    color: var(--text-main);
+    margin-bottom: 25px;
+}
+
+.professionalSummary+p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.about-text strong {
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+/* Value Props Strip */
+.valueProps {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-bottom: 60px;
+}
+
+.valueItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.1rem;
+    color: var(--text-main);
+    background: var(--glass-bg);
+    padding: 15px 25px;
+    border-radius: 50px;
+    border: 1px solid var(--glass-border);
+    transition: transform 0.3s ease;
+}
+
+.valueItem:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+}
+
+.valueItem i {
+    color: var(--accent);
+    font-size: 1.4rem;
+}
+
+/* Bento Grid for Info Cards */
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+    text-align: left;
+}
+
+.about-card {
+    padding: 35px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.about-card h3 {
+    font-size: 1.35rem;
+    margin-bottom: 25px;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 15px;
+}
+
+.about-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Certification List */
+.certList li {
+    margin-bottom: 20px;
+}
+
+.certList li:last-child {
+    margin-bottom: 0;
+}
+
+.certList li strong {
+    display: block;
+    color: var(--text-main);
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+}
+
+.certList li span {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    display: block;
+}
+
+/* Core Competencies List */
+.about-card li {
+    margin-bottom: 12px;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.about-card li strong {
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+/* Contact Links */
+.contactLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: auto;
+    /* Push to bottom */
+    padding-top: 25px;
+}
+
+.about-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.btn-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-link:not(.secondary) {
+    background: var(--accent);
+    color: var(--bg-main);
+}
+
+.btn-link.secondary {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+}
+
+.btn-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-link.secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}

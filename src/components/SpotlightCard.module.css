@@ -1,0 +1,97 @@
+/* --- SPOTLIGHT CARD EFFECT (ENHANCED GLASS) --- */
+.spotlight-card {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    /* Improved glass border: thin, subtle top highlight */
+    border: 1px solid var(--glass-border);
+    border-top: 1px solid var(--glass-highlight);
+    box-shadow: var(--glass-shadow);
+
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.spotlight-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y),
+            var(--spotlight-color),
+            transparent 40%);
+    z-index: 3;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+.spotlight-card:hover::before {
+    opacity: 1;
+}
+
+.spotlight-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px 0 rgba(0, 0, 0, 0.3);
+    /* Deeper hover shadow */
+    border-color: var(--bento-border-hover);
+}
+
+/* --- STAR BORDER EFFECT (Hover) --- */
+.spotlight-card::after {
+    content: "";
+    position: absolute;
+    /* Increased inset to make border thicker and more visible */
+    inset: -2px;
+    z-index: 4;
+    /* Made colors much brighter/stronger opacity */
+    background: conic-gradient(from var(--angle),
+            transparent 0%,
+            transparent 70%,
+            #fff 90%,
+            /* Pure White for max visibility */
+            #00C9FF 100%
+            /* Cyan tail */
+        );
+    border-radius: 16px;
+    padding: 2px;
+    /* Thicker border width */
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes borderRotate {
+    from {
+        --angle: 0deg;
+    }
+
+    to {
+        --angle: 360deg;
+    }
+}
+
+.spotlight-card:hover::after {
+    opacity: 1;
+    /* Sped up animation slightly for better visibility of motion */
+    animation: borderRotate 2.5s linear infinite;
+}

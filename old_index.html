@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaishnav Kalaikumar | Senior QA Engineer</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons for modern lightweight icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        /* --- VARIABLES & RESET (REFINED DARK MODE) --- */
+        :root {
+            /* Default Dark Theme Colors */
+            --bg-color: #030303; 
+            --text-main: #ffffff;
+            --text-secondary: #a1a1aa; 
+            --accent: #ffffff; 
+            /* Enhanced Glass Vars */
+            --glass-border: rgba(255, 255, 255, 0.08); 
+            --glass-highlight: rgba(255, 255, 255, 0.15); /* Top border highlight */
+            --glass-bg: rgba(20, 20, 20, 0.4); /* Darker, more transparent base */
+            --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            
+            --nav-bg: rgba(10, 10, 10, 0.6);
+            --spotlight-color: rgba(255, 255, 255, 0.15);
+            --hero-shadow: rgba(255,255,255,0.2);
+            --bento-bg: rgba(255, 255, 255, 0.03);
+            --bento-hover-bg: rgba(255, 255, 255, 0.08);
+            --bento-border-hover: rgba(255,255,255,0.25);
+            --card-img-bg: rgba(255,255,255,0.03);
+            
+            /* Background Elements */
+            --prism-blob-1: rgba(0, 201, 255, 0.3);
+            --prism-blob-2: rgba(146, 254, 157, 0.2);
+            --prism-blob-3: rgba(94, 92, 230, 0.25);
+            --dot-grid-color: rgba(255, 255, 255, 0.1);
+            
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Light Mode Overrides */
+        [data-theme="light"] {
+            --bg-color: #f8fafc; /* Very light gray/white */
+            --text-main: #1e293b; /* Slate 800 */
+            --text-secondary: #475569; /* Slate 600 */
+            --accent: #0f172a; /* Slate 900 */
+            
+            --glass-border: rgba(0, 0, 0, 0.06); 
+            --glass-highlight: rgba(255, 255, 255, 0.8); 
+            --glass-bg: rgba(255, 255, 255, 0.75); 
+            --glass-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+            --nav-bg: rgba(255, 255, 255, 0.85); 
+            --spotlight-color: rgba(0, 0, 0, 0.03); 
+            --hero-shadow: rgba(0,0,0,0.05);
+            
+            --bento-bg: rgba(255, 255, 255, 0.6);
+            --bento-hover-bg: #ffffff; 
+            --bento-border-hover: rgba(0,0,0,0.1);
+            --card-img-bg: #f1f5f9; 
+
+            --prism-blob-1: rgba(56, 189, 248, 0.15); 
+            --prism-blob-2: rgba(52, 211, 153, 0.15); 
+            --prism-blob-3: rgba(129, 140, 248, 0.15); 
+            --dot-grid-color: rgba(0, 0, 0, 0.06); 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* HIDE DEFAULT SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent; 
+        }
+
+        /* CUSTOM SCROLL PROGRESS BAR */
+        .scroll-progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            z-index: 9999;
+            background: transparent;
+        }
+
+        .scroll-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00C9FF, #92FE9D); 
+            box-shadow: 0 0 10px rgba(0, 201, 255, 0.7);
+            border-radius: 0 2px 2px 0;
+            transition: width 0.1s ease-out;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-main);
+            background-color: var(--bg-color);
+            line-height: 1.7; 
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            padding-bottom: 100px;
+            position: relative;
+            transition: background-color 0.5s ease, color 0.5s ease; /* Smooth theme switch */
+        }
+        
+        /* Prevent scrolling when Welcome Screen is active */
+        body.welcome-active {
+            overflow: hidden;
+        }
+
+        /* --- WELCOME SCREEN OVERLAY (NEW) --- */
+        #welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #121626; 
+            z-index: 10000; /* Highest z-index */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            perspective: 1500px;
+        }
+
+        #welcome-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.1); /* Zoom out effect on exit */
+        }
+
+        /* --- 3D PROFILE CARD STYLES (ENHANCED) --- */
+        .profile-card {
+            position: relative;
+            width: 360px;
+            height: 550px; /* Increased size */
+            background: var(--glass-bg);
+            border-radius: 24px;
+            
+            /* 3D Transform Settings */
+            transform-style: preserve-3d;
+            transform: rotateX(0deg) rotateY(0deg);
+            transition: transform 0.1s ease-out, box-shadow 0.3s ease;
+            will-change: transform;
+            
+            /* Decoration */
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            text-decoration: none;
+            cursor: pointer;
+            overflow: visible; /* Changed to visible for popping elements */
+            display: block;
+        }
+
+        /* Image Layer - Base depth */
+        .profile-card-full-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%; 
+            overflow: hidden;
+            border-radius: 24px; 
+            transform: translateZ(0px); /* Base Level */
+            z-index: 1;
+        }
+        
+        .profile-card-full-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            transition: transform 0.3s ease;
+            opacity: 0.9;
+        }
+
+        /* NEW: Header Info (Top Position) */
+        .profile-header-info {
+            position: absolute;
+            top: 30px;
+            left: 25px;
+            z-index: 20;
+            transform: translateZ(30px);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            pointer-events: none;
+            max-width: 60%; /* Prevent overlap with badge */
+        }
+
+        /* Typography Enhancements for Header */
+        .profile-name {
+            font-size: 1.8rem;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+            text-align: left;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* Shadow for contrast on image */
+        }
+
+        .profile-role {
+            font-size: 0.8rem;
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 0;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.4); /* Pill background for readability */
+            padding: 4px 10px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Text Content - Floating in 3D Space */
+        .profile-card-content {
+            position: absolute;
+            z-index: 10; 
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 25px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: flex-end; 
+            height: 100%;
+            pointer-events: none; /* Let clicks pass through */
+            
+            /* 3D Parallax */
+            transform: translateZ(40px); 
+        }
+        
+        /* ------------------------------------------- */
+        /* --- GLASS ICON STYLE EFFECT (Container) --- */
+        /* ------------------------------------------- */
+        
+        .profile-card-text-box {
+            position: relative;
+            
+            /* Glass Background */
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            
+            /* Glass Borders */
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Thinner bottom border for depth */
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 40px; /* Pill shape */
+            padding: 12px;
+            
+            /* Sizing */
+            width: auto;
+            min-width: 220px;
+            margin-bottom: 30px; 
+            
+            /* Flex & Interaction */
+            pointer-events: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+            /* Deep Shadow for Float */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            
+            transform: scale(0.95);
+            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+            
+            overflow: hidden; 
+        }
+
+        /* Shine Effect Swipe on Hover */
+        .profile-card-text-box::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(255, 255, 255, 0.2), /* Subtle shine */
+                transparent
+            );
+            transform: skewX(-25deg);
+            transition: left 0.5s;
+            pointer-events: none;
+        }
+
+        .profile-card:hover .profile-card-text-box {
+            transform: scale(1);
+            box-shadow: 0 15px 40px 0 rgba(0, 0, 0, 0.45);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+        }
+        
+        .profile-card:hover .profile-card-text-box::before {
+            left: 150%;
+        }
+        
+        /* Animated Button */
+        .profile-btn {
+            background: #fff; 
+            color: #000;
+            padding: 12px 30px; 
+            border-radius: 40px; 
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            
+            /* Ensure button sits above the grid effect */
+            position: relative;
+            z-index: 2; 
+        }
+        
+        .profile-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        /* Default Hover (Dark Mode) */
+        .profile-card:hover .profile-btn {
+            background: #00C9FF; /* Cyan accent */
+            color: #000; 
+            box-shadow: 0 0 15px rgba(0, 201, 255, 0.4);
+        }
+        
+        .profile-card:hover .profile-btn i {
+            transform: translateX(4px);
+        }
+
+        /* --- NEW FEATURES --- */
+
+        /* 1. Status Badge (Top Right) */
+        .status-badge {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 6px 14px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transform: translateZ(30px); /* Floats above image */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 20;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #22c55e; /* Green */
+            border-radius: 50%;
+            box-shadow: 0 0 10px #22c55e;
+            animation: pulse 2s infinite;
+        }
+
+        .status-text {
+            font-size: 0.7rem;
+            color: #fff;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* 2. Realistic Glare Effect */
+        .card-glare {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 24px;
+            background: linear-gradient(
+                125deg,
+                rgba(255, 255, 255, 0.4) 0%,
+                rgba(255, 255, 255, 0.0) 40%,
+                rgba(255, 255, 255, 0.0) 100%
+            );
+            opacity: 0;
+            z-index: 50;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            mix-blend-mode: overlay; /* Blends nicely with dark image */
+            transform: translateZ(1px); /* Just above the image */
+        }
+
+        .profile-card:hover .card-glare {
+            opacity: 1;
+        }
+        
+        /* ------------------------------------------- */
+        /* --- PROFILE CARD LIGHT MODE SPECIFICS --- */
+        /* ------------------------------------------- */
+        
+        [data-theme="light"] .profile-card {
+            border-color: rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            /* Slightly lighter glass bg behind image */
+            background: rgba(255, 255, 255, 0.2); 
+        }
+
+        /* Make status badge light frost in light mode */
+        [data-theme="light"] .status-badge {
+            background: rgba(255, 255, 255, 0.75);
+            border-color: rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="light"] .status-text {
+            color: #1e293b; /* Dark text for contrast against light frost */
+        }
+
+        /* Bottom Control Box - Light Mode adjustments for Glass Icon style */
+        [data-theme="light"] .profile-card-text-box {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        [data-theme="light"] .profile-card:hover .profile-card-text-box {
+             background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5));
+        }
+
+        /* Button - Invert to Dark for Contrast */
+        [data-theme="light"] .profile-btn {
+            background: #0f172a; /* Dark button */
+            color: #ffffff;
+        }
+
+        /* FIXED: Ensure text stays white on hover in Light Mode */
+        [data-theme="light"] .profile-btn:hover,
+        [data-theme="light"] .profile-card:hover .profile-btn {
+            background: #000000;
+            color: #ffffff !important; /* Forces text to stay white, overriding dark mode hover styles */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- PRISM BACKGROUND --- */
+        .prism-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            transition: background-color 0.5s ease;
+        }
+
+        /* The Gradient Blobs */
+        .prism-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: move 20s infinite alternate;
+            transition: background 0.5s ease;
+        }
+
+        .prism-blob:nth-child(1) {
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, var(--prism-blob-1) 0%, transparent 70%);
+            animation-duration: 25s;
+        }
+
+        .prism-blob:nth-child(2) {
+            bottom: -10%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, var(--prism-blob-2) 0%, transparent 70%);
+            animation-duration: 30s;
+            animation-delay: -5s;
+        }
+
+        .prism-blob:nth-child(3) {
+            top: 40%;
+            left: 40%;
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle, var(--prism-blob-3) 0%, transparent 70%);
+            animation-duration: 35s;
+            animation-delay: -10s;
+        }
+
+        @keyframes move {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(20px, -20px) scale(1.1); }
+        }
+
+        /* NOISE TEXTURE OVERLAY */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.05;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Subtle Dot Grid on top of Prism */
+        .dot-grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            /* Use a CSS variable for the gradient color to support theme switching */
+            background-image: radial-gradient(var(--dot-grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            opacity: 0.5;
+            transition: background-image 0.5s ease;
+        }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        section, nav, footer {
+            position: relative;
+            z-index: 1; 
+        }
+
+        /* --- FLOATING CARD NAVIGATION --- */
+        nav {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            
+            /* Enhanced Glass Dock */
+            background: var(--nav-bg); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-highlight); /* Highlight top edge */
+            box-shadow: var(--glass-shadow);
+            
+            padding: 12px 30px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            transition: all 0.3s ease, background 0.5s ease, border 0.5s ease;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a i {
+            font-size: 1.2rem;
+            margin-bottom: 2px;
+            display: block;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-3px);
+        }
+        
+        [data-theme="light"] .nav-links a:hover {
+             background: rgba(0,0,0,0.05);
+        }
+
+        /* Theme Toggle Button Style */
+        .theme-toggle {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .theme-toggle:hover {
+            color: var(--text-main);
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+        
+        [data-theme="light"] .theme-toggle:hover {
+            background: rgba(0,0,0,0.05);
+        }
+
+        .logo { display: none; }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            /* Reduced height significantly to pull Logo Loop upwards, away from the fixed bottom Nav */
+            height: 60vh; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            /* 3D Perspective for Tilted Card Effect */
+            perspective: 1000px;
+        }
+
+        /* GRADIENT TEXT ANIMATION */
+        .gradient-text {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+            
+            background: linear-gradient(
+                to right,
+                var(--text-main) 20%,
+                #00C9FF 30%,
+                #92FE9D 70%,
+                var(--text-main) 80%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: textShine 5s ease-in-out infinite alternate;
+        }
+
+        @keyframes textShine {
+            to {
+                background-position: 200%;
+            }
+        }
+
+        /* Kept opacity transition for load effect */
+        .hero h1 {
+            text-shadow: 0 0 40px var(--hero-shadow);
+            position: relative; 
+            z-index: 2;
+        }
+
+        .split-char.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin-bottom: 40px;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            background-color: var(--accent);
+            color: var(--bg-color); /* Contrast text against button bg */
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            border: 1px solid var(--accent);
+            cursor: pointer;
+            display: inline-flex; /* Changed from inline-block for icon alignment */
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--transition);
+            border-radius: 4px;
+            font-weight: 700;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(255,255,255,0.3);
+        }
+        
+        [data-theme="light"] .btn:hover {
+             box-shadow: 0 0 25px rgba(0,0,0,0.1);
+        }
+
+        /* --- TILTED CARD BUTTON (For Modal Actions Only) --- */
+        .tilted-card-btn {
+            background-color: var(--accent);
+            color: #000; /* Black text for contrast */
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            padding: 15px 40px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateX(0) rotateY(0);
+            transition: transform 0.1s ease-out, background-color 0.3s ease, box-shadow 0.3s ease;
+            will-change: transform;
+        }
+
+        .tilted-card-btn:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: var(--text-main);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3); /* Add depth shadow on hover */
+        }
+
+        /* Light Mode Styles for Download Resume Button */
+        [data-theme="light"] .tilted-card-btn {
+            background-color: var(--accent); /* Dark Slate in Light Mode */
+            color: #ffffff; /* White Text */
+            border-color: var(--accent);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        [data-theme="light"] .tilted-card-btn:hover {
+            background-color: #000000; /* Even darker on hover */
+            color: #ffffff;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+        }
+        
+        /* Add inner glare effect */
+        .tilted-card-btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                125deg, 
+                rgba(255,255,255,0.3) 0%, 
+                rgba(255,255,255,0.0) 40%, 
+                rgba(255,255,255,0.0) 100%
+            );
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .tilted-card-btn:hover::after {
+            opacity: 1;
+        }
+
+        /* --- RESUME MODAL STYLES --- */
+        .resume-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .resume-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .resume-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-highlight);
+            box-shadow: var(--glass-shadow);
+            border-radius: 16px;
+            padding: 40px;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .resume-modal.active .resume-card {
+            transform: scale(1);
+        }
+
+        .resume-preview {
+            width: 100%;
+            height: 500px; 
+            background: #fff;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .resume-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .download-options {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .modal-close:hover {
+            color: var(--text-main);
+        }
+
+        /* --- LOGO LOOP (INFINITE SCROLL) --- */
+        .logo-loop-container {
+            width: 100%;
+            overflow: hidden;
+            padding: 40px 0;
+            position: relative;
+            background: rgba(255,255,255,0.01);
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            
+            margin-bottom: 150px; 
+            z-index: 1; 
+        }
+
+        .logo-track {
+            display: flex;
+            width: max-content;
+            animation: loopScroll 35s linear infinite;
+        }
+
+        .logo-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 50px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .logo-item i, .logo-item img {
+            font-size: 2rem;
+            color: var(--text-main);
+            /* Ensure images scale correctly if used alongside icons */
+            height: 32px; 
+            width: auto;
+        }
+
+        .logo-item:hover {
+            color: var(--text-main);
+            opacity: 1;
+            transform: scale(1.05);
+            text-shadow: 0 0 15px var(--glass-border);
+        }
+
+        @keyframes loopScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* --- PROJECTS GRID --- */
+        .section-title {
+            text-align: center;
+            margin: 100px 0 50px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.8rem;
+            color: var(--text-main);
+            text-shadow: 0 0 20px var(--glass-border);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 40px;
+            padding: 0 20px 80px; 
+            max-width: 1200px; 
+            margin: 0 auto;
+        }
+
+        /* --- SPOTLIGHT CARD EFFECT (ENHANCED GLASS) --- */
+        .spotlight-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            /* Improved glass border: thin, subtle top highlight */
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-highlight);
+            box-shadow: var(--glass-shadow);
+            
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .spotlight-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y),
+                var(--spotlight-color), 
+                transparent 40%
+            );
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .spotlight-card:hover::before { opacity: 1; }
+
+        .spotlight-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px 0 rgba(0,0,0,0.3); /* Deeper hover shadow */
+            border-color: var(--bento-border-hover);
+        }
+
+        /* --- STAR BORDER EFFECT (Hover) --- */
+        .spotlight-card::after {
+            content: "";
+            position: absolute;
+            /* Increased inset to make border thicker and more visible */
+            inset: -2px; 
+            z-index: 4;
+            /* Made colors much brighter/stronger opacity */
+            background: conic-gradient(
+                from var(--angle),
+                transparent 0%,
+                transparent 70%,
+                #fff 90%, /* Pure White for max visibility */
+                #00C9FF 100% /* Cyan tail */
+            );
+            border-radius: 16px;
+            padding: 2px; /* Thicker border width */
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        @property --angle {
+            syntax: "<angle>";
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        @keyframes borderRotate {
+            from { --angle: 0deg; }
+            to { --angle: 360deg; }
+        }
+
+        .spotlight-card:hover::after {
+            opacity: 1;
+            /* Sped up animation slightly for better visibility of motion */
+            animation: borderRotate 2.5s linear infinite;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 280px;
+            background-color: var(--card-img-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 2rem;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 2;
+        }
+
+        .card-image.badge-holder img {
+            object-fit: contain;
+            padding: 30px;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .spotlight-card:hover .card-image img { transform: scale(1.05); }
+
+        .card-info {
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-main);
+        }
+
+        .card-role {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        /* --- CAROUSEL STYLES --- */
+        .carousel-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow-x: auto;
+            display: flex;
+            gap: 30px;
+            padding: 40px 20px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        
+        .carousel-container::-webkit-scrollbar { display: none; }
+
+        .carousel-card {
+            min-width: 380px;
+            max-width: 380px;
+            scroll-snap-align: center;
+            flex-shrink: 0;
+            position: relative;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-highlight);
+            padding: 40px;
+            box-shadow: var(--glass-shadow);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .carousel-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y),
+                var(--spotlight-color),
+                transparent 40%
+            );
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .carousel-card:hover::before { opacity: 1; }
+
+        /* Star Border for Carousel too (Updated Visibility) */
+        .carousel-card::after {
+            content: "";
+            position: absolute;
+            inset: -2px; /* Thicker border area */
+            z-index: 4;
+            background: conic-gradient(
+                from var(--angle),
+                transparent 0%,
+                transparent 70%,
+                #fff 90%, 
+                #00C9FF 100%
+            );
+            border-radius: 16px;
+            padding: 2px; /* Thicker border */
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .carousel-card:hover::after {
+            opacity: 1;
+            animation: borderRotate 2.5s linear infinite;
+        }
+
+        .carousel-card:hover {
+            transform: translateY(-5px);
+            border-color: transparent; /* Hide original border so star border shows */
+        }
+
+        .carousel-date {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .carousel-role {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            color: var(--text-main);
+        }
+
+        .carousel-company {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--accent); /* Accent color for emphasis */
+            margin-bottom: 25px;
+        }
+        
+        [data-theme="light"] .carousel-company {
+            color: #0f172a; /* Make bold in light mode */
+        }
+
+        .carousel-desc {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        .carousel-desc ul {
+            padding-left: 20px;
+            list-style-type: disc;
+        }
+
+        /* --- ABOUT SECTION --- */
+        .about {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .about-text {
+            max-width: 900px;
+            margin: 0 auto 60px;
+            text-align: center; 
+            padding: 0 20px; /* Added padding to prevent edge-touching on mobile */
+            line-height: 1.9;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .about-text strong { color: var(--text-main); font-weight: 600; }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .about-card {
+            padding: 40px;
+        }
+
+        .about-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .about-card li {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 25px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .about-card li::before {
+            content: "•";
+            color: var(--accent);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+        
+        [data-theme="light"] .about-card li::before {
+            color: #0f172a;
+        }
+
+        /* --- MAGIC BENTO GRID --- */
+        .skills-section {
+            padding: 80px 0; 
+            text-align: center;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 150px;
+            gap: 25px;
+            margin-top: 50px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 20px;
+        }
+
+        .bento-item {
+            position: relative;
+            border-radius: 16px;
+            background: var(--bento-bg);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            cursor: default;
+        }
+
+        .bento-item:hover {
+            transform: scale(1.02);
+            background: var(--bento-hover-bg);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            border-color: var(--bento-border-hover);
+            z-index: 2;
+        }
+
+        .bento-icon {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+            transition: transform 0.3s ease;
+        }
+
+        .bento-item:hover .bento-icon {
+            transform: translateY(-5px);
+            color: var(--text-main);
+        }
+
+        .bento-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .span-2-col { grid-column: span 2; }
+        .span-2-row { grid-row: span 2; }
+
+        @media (max-width: 900px) {
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .bento-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
+            .bento-item { min-height: 130px; }
+            .span-2-col, .span-2-row { grid-column: span 1; grid-row: span 1; }
+            nav { width: 90%; bottom: 20px; padding: 10px 20px; gap: 10px; }
+            .nav-links a { padding: 5px 10px; font-size: 0.7rem; }
+            .nav-links a span { display: none; }
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: transparent;
+            color: var(--text-main);
+            padding: 100px 5% 150px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            border-top: 1px solid var(--glass-border);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-col h3 {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-main);
+        }
+
+        .footer-col p, .footer-col a {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer-col a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+
+        .copyright {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 40px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+    </style>
+</head>
+<body class="welcome-active">
+
+    <!-- WELCOME SCREEN (SPLASH SCREEN) -->
+    <div id="welcome-screen">
+        <!-- 3D PROFILE CARD STRUCTURE -->
+        <a href="javascript:void(0);" id="profile-card-3d" class="profile-card" onclick="enterPortfolio()">
+            
+            <!-- 1. The Glare Effect Layer -->
+            <div class="card-glare"></div>
+        
+            <!-- 2. The Background Image -->
+            <div class="profile-card-full-img">
+                <!-- Using local file Vaishnav.png as requested -->
+                <img src="Vaishnav.png" alt="Vaishnav Profile" onerror="this.src='https://placehold.co/500x700/0f172a/FFF?text=Vaishnav'">
+            </div>
+        
+            <!-- 3. Status Badge (Top Right) -->
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                <span class="status-text">Open to Work</span>
+            </div>
+
+            <!-- 4. NEW: Header Info (Top Left) -->
+            <div class="profile-header-info">
+                <h2 class="profile-name">Vaishnav Kalaikumar</h2>
+                <p class="profile-role">Senior Quality Engineer</p>
+            </div>
+            
+            <!-- 5. Floating Content Box (Bottom - Button Only) -->
+            <div class="profile-card-content">
+                <div class="profile-card-text-box">
+                    <button class="profile-btn">
+                        <span>Enter Portfolio</span>
+                        <i class="ph ph-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- SCROLL PROGRESS BAR -->
+    <div class="scroll-progress-container">
+        <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+    </div>
+
+    <!-- PRISM BACKGROUND LAYERS -->
+    <div class="prism-background">
+        <div class="prism-blob"></div>
+        <div class="prism-blob"></div>
+        <div class="prism-blob"></div>
+    </div>
+    
+    <!-- Noise & Grid Overlays -->
+    <div class="noise-overlay"></div>
+    <div class="dot-grid-overlay"></div>
+
+    <!-- RESUME PREVIEW MODAL -->
+    <div id="resume-modal" class="resume-modal">
+        <div class="resume-card" id="resume-card-tilt">
+            <button class="modal-close" onclick="closeResumeModal()"><i class="ph ph-x"></i></button>
+            <h3 style="margin-bottom: 20px; color: var(--text-main);">Resume Preview</h3>
+            
+            <div class="resume-preview">
+                <!-- Using an Image for the preview -->
+                <img src="resume-preview.png" alt="Resume Preview" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <!-- Fallback to PDF iframe if image is missing -->
+                <iframe src="Vaishnav_Quality Analyst Engineer_Resume_2025.pdf#toolbar=0&navpanes=0&scrollbar=0" style="display:none; width:100%; height:100%; border:none;" title="Resume Preview"></iframe>
+            </div>
+            
+            <div class="download-options">
+                <a href="Vaishnav_Quality Analyst Engineer_Resume_2025.pdf" download="Vaishnav_Quality Analyst Engineer_Resume_2025.pdf" target="_self" class="tilted-card-btn" style="width: 100%; justify-content: center;">
+                    <i class="ph ph-download-simple"></i> Download PDF
+                </a>
+                <a href="Vaishnav_Quality Analyst Engineer_Resume_2025.docx" download="Vaishnav_Quality Analyst Engineer_Resume_2025.docx" target="_self" class="tilted-card-btn" style="width: 100%; justify-content: center;">
+                    <i class="ph ph-download-simple"></i> Download DOCX
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Dock Navigation -->
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#work"><i class="ph ph-briefcase"></i> <span>Work</span></a></li>
+            <li><a href="#experience"><i class="ph ph-trend-up"></i> <span>Experience</span></a></li>
+            <li><a href="#about"><i class="ph ph-user"></i> <span>About</span></a></li>
+            <li><a href="#skills"><i class="ph ph-lightning"></i> <span>Skills</span></a></li>
+            <li><a href="#contact"><i class="ph ph-envelope"></i> <span>Contact</span></a></li>
+        </ul>
+        
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" class="theme-toggle" title="Toggle Theme">
+            <i class="ph ph-moon"></i>
+        </button>
+    </nav>
+
+    <section class="hero">
+        <!-- Applied the new gradient-text class here -->
+        <h1 id="hero-title" class="gradient-text">Senior Quality Engineer</h1>
+        
+        <p style="font-weight: 500; font-size: 1.1rem; max-width: 800px; line-height: 1.6;">
+            Automation (Selenium) & Manual Testing | AWS | Guinness World Record Holder | Gen AI & GitHub Copilot Certified
+        </p>
+        
+        <div class="btn-container">
+            <a href="#work" class="btn">View My Work</a>
+            <!-- Updated Button: Standard button type, no tilt effect -->
+            <button onclick="openResumeModal()" class="btn">
+                <i class="ph ph-download-simple"></i> Download Resume
+            </button>
+        </div>
+    </section>
+
+    <!-- LOGO LOOP SECTION -->
+    <div class="logo-loop-container">
+        <div class="logo-track">
+            <!-- Set 1: Software Icons -->
+            <div class="logo-item" title="Selenium Automation"><i class="ph ph-robot"></i> Selenium</div>
+            <div class="logo-item" title="Java Development"><i class="ph ph-coffee"></i> Java</div>
+            <div class="logo-item" title="Amazon Web Services"><i class="ph ph-cloud"></i> AWS</div>
+            <div class="logo-item" title="Jenkins CI/CD"><i class="ph ph-infinity"></i> Jenkins</div>
+            <div class="logo-item" title="Git Version Control"><i class="ph ph-git-branch"></i> Git</div>
+            <div class="logo-item" title="JIRA Project Management"><i class="ph ph-kanban"></i> JIRA</div>
+            <div class="logo-item" title="Postman API Testing"><i class="ph ph-webhooks-logo"></i> Postman</div>
+            <div class="logo-item" title="GitHub Copilot"><i class="ph ph-github-logo"></i> Copilot</div>
+            <div class="logo-item" title="Android Testing"><i class="ph ph-android-logo"></i> Android</div>
+            <div class="logo-item" title="Docker Containers"><i class="ph ph-package"></i> Docker</div>
+            <div class="logo-item" title="BrowserStack"><i class="ph ph-browsers"></i> BrowserStack</div>
+            <div class="logo-item" title="Qmetry"><i class="ph ph-list-checks"></i> Qmetry</div>
+
+            <!-- Set 2 (Duplicate for seamless loop) -->
+            <div class="logo-item" title="Selenium Automation"><i class="ph ph-robot"></i> Selenium</div>
+            <div class="logo-item" title="Java Development"><i class="ph ph-coffee"></i> Java</div>
+            <div class="logo-item" title="Amazon Web Services"><i class="ph ph-cloud"></i> AWS</div>
+            <div class="logo-item" title="Jenkins CI/CD"><i class="ph ph-infinity"></i> Jenkins</div>
+            <div class="logo-item" title="Git Version Control"><i class="ph ph-git-branch"></i> Git</div>
+            <div class="logo-item" title="JIRA Project Management"><i class="ph ph-kanban"></i> JIRA</div>
+            <div class="logo-item" title="Postman API Testing"><i class="ph ph-webhooks-logo"></i> Postman</div>
+            <div class="logo-item" title="GitHub Copilot"><i class="ph ph-github-logo"></i> Copilot</div>
+            <div class="logo-item" title="Android Testing"><i class="ph ph-android-logo"></i> Android</div>
+            <div class="logo-item" title="Docker Containers"><i class="ph ph-package"></i> Docker</div>
+            <div class="logo-item" title="BrowserStack"><i class="ph ph-browsers"></i> BrowserStack</div>
+            <div class="logo-item" title="Qmetry"><i class="ph ph-list-checks"></i> Qmetry</div>
+        </div>
+    </div>
+
+    <div id="work">
+        <h2 class="section-title">Selected Experience</h2>
+        <div class="grid-container">
+            
+            <div class="spotlight-card star-border-card">
+                <div class="card-image badge-holder">
+                    <img src="vibe-code-hackathon-using-github-copilot.png" alt="Vibe Code Hackathon Badge">
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Vibe Code Hackathon</div>
+                    <div class="card-role">Topic: AI_Duplicate Defect Detection</div>
+                </div>
+            </div>
+
+            <div class="spotlight-card star-border-card">
+                <div class="card-image badge-holder">
+                    <img src="Cognizant.png" alt="Cognizant">
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Cognizant (Taco Bell)</div>
+                    <div class="card-role">Lead QA • Agile & JIRA</div>
+                </div>
+            </div>
+
+            <div class="spotlight-card star-border-card">
+                <div class="card-image badge-holder">
+                    <img src="Selenium.png" alt="Automation">
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Automation Frameworks</div>
+                    <div class="card-role">Selenium WebDriver & TestNG</div>
+                </div>
+            </div>
+
+            <div class="spotlight-card star-border-card">
+                <div class="card-image badge-holder">
+                    <img src="AWS.png" alt="AWS Cloud">
+                </div>
+                <div class="card-info">
+                    <div class="card-title">AWS Cloud Validation</div>
+                    <div class="card-role">DevOps • Jenkins • EC2/S3</div>
+                </div>
+            </div>
+
+            <div class="spotlight-card star-border-card">
+                <div class="card-image badge-holder">
+                    <img src="HCL.jpeg" alt="HCL Technologies">
+                </div>
+                <div class="card-info">
+                    <div class="card-title">HCL Technologies</div>
+                    <div class="card-role">Test Analyst • Device Testing</div>
+                </div>
+            </div>
+
+            <div class="spotlight-card star-border-card">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80" alt="Creative">
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Creative Portfolio</div>
+                    <div class="card-role">Photography • Video Editing</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- EXPERIENCE CAROUSEL SECTION -->
+    <section id="experience">
+        <!-- Added text-align: center to center the title -->
+        <h2 class="section-title" style="text-align: center;">Professional Journey</h2>
+        <div class="carousel-container">
+            
+            <div class="carousel-card star-border-card">
+                <span class="carousel-date">Feb 2021 – Present</span>
+                <h3 class="carousel-role">Associate – Sr. QA</h3>
+                <div class="carousel-company">Cognizant Technology Solutions</div>
+                <div class="carousel-desc">
+                    <ul>
+                        <li>Lead QA for the QEA-RCGTH domain, managing end-to-end testing for Taco Bell Delivery.</li>
+                        <li>Maintain scalable regression suites using Selenium & TestNG.</li>
+                        <li>Log file validation and POS/KDS checks on AWS platform.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="carousel-card star-border-card">
+                <span class="carousel-date">Feb 2020 – Jan 2021</span>
+                <h3 class="carousel-role">Test Analyst</h3>
+                <div class="carousel-company">HCL Technologies</div>
+                <div class="carousel-desc">
+                    <ul>
+                        <li>Tested Xerox machine driver applications across Windows, Linux, and Mac OS versions.</li>
+                        <li>Validated device functionality and driver compatibility for diverse printer models.</li>
+                        <li>Performed rigorous regression & system testing to ensure seamless driver performance.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="carousel-card star-border-card">
+                <span class="carousel-date">Sep 2017 – July 2019</span>
+                <h3 class="carousel-role">Tech Support Engineer</h3>
+                <div class="carousel-company">Sutherland (Amazon Kindle)</div>
+                <div class="carousel-desc">
+                    <ul>
+                        <li>Developed manual test cases for complex scenarios and Exploratory Testing.</li>
+                        <li>Created system procedures to enhance team operational knowledge.</li>
+                        <li>Resolved technical issues for Amazon Kindle users.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- NEW EDUCATION SECTION (Standardized Alignment) -->
+    <section id="education" style="padding: 60px 0; text-align: center;">
+        <div class="container">
+            <h2 class="section-title" style="margin-top: 0;">Education</h2>
+            
+            <div style="display: flex; justify-content: center; margin-top: 40px;">
+                <div class="spotlight-card" style="max-width: 600px; width: 100%; padding: 40px; text-align: left; display: flex; align-items: center; gap: 30px;">
+                    <!-- Icon/Graphic -->
+                    <div style="background: var(--glass-bg); padding: 20px; border-radius: 50%; border: 1px solid var(--glass-border);">
+                        <i class="ph ph-graduation-cap" style="font-size: 3rem; color: var(--text-main);"></i>
+                    </div>
+                    
+                    <!-- Details -->
+                    <div>
+                        <span style="font-size: 0.9rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 5px;">Graduated 2017</span>
+                        <h3 style="font-size: 1.5rem; color: var(--text-main); margin-bottom: 5px;">B.E. Electrical & Electronics</h3>
+                        <div style="font-size: 1.1rem; color: var(--text-main); font-weight: 500; margin-bottom: 10px;">Sri Krishna Engineering College, Chennai</div>
+                        <p style="color: var(--text-secondary);">Aggregate: 7.08 CGPA</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About</h2>
+            
+            <div class="about-text">
+                <p style="margin-bottom: 20px;">
+                    As a <strong>Senior Quality Engineer</strong> with over 5 years of industry experience, I am passionate about delivering bug-free, high-performance software solutions. My expertise bridges the gap between Manual and Automation Testing, ensuring that end-users enjoy a seamless experience across web and mobile platforms.
+                </p>
+                <p style="margin-bottom: 20px;">
+                    Currently, I work as an Associate – Sr. Quality Engineer at <strong>Cognizant Technology Solutions</strong>, where I lead QA efforts for the Taco Bell Delivery Website. In this role, I design comprehensive test strategies, manage defects using JIRA and Qmetry, and maintain robust regression suites using Selenium Automation. I am also deeply involved in the DevOps lifecycle, utilizing Jenkins, Git, and GitHub for continuous integration and deployment.
+                </p>
+            </div>
+
+            <div class="about-grid">
+                
+                <div class="spotlight-card about-card">
+                    <h3><i class="ph ph-lightning"></i> What Sets Me Apart</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">
+                        I am a firm believer in leveraging emerging technologies to enhance quality engineering. I recently completed the <strong>GitHub Copilot Advanced Program for QEA</strong> and am proud to be a <strong>Guinness World Record holder</strong> for participating in a Generative AI Hackathon using GitHub Copilot. This experience has empowered me to integrate AI-driven tools into testing workflows to boost efficiency and accuracy.
+                    </p>
+                </div>
+
+                <div class="spotlight-card about-card">
+                    <h3><i class="ph ph-code"></i> Core Competencies</h3>
+                    <ul>
+                        <li><strong>Automation & Testing:</strong> Selenium WebDriver, TestNG, Postman, Manual Testing.</li>
+                        <li><strong>Cloud & DevOps:</strong> AWS (EC2, S3, Lambda, CloudWatch), Jenkins, Docker, Git.</li>
+                        <li><strong>Tools:</strong> JIRA (Zephyr), Qmetry, BrowserStack (Mobile Testing).</li>
+                        <li><strong>OS & Platforms:</strong> Windows, Linux, Mac, Android.</li>
+                    </ul>
+                </div>
+
+                <div class="spotlight-card about-card">
+                    <h3><i class="ph ph-users"></i> Let's Connect</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">
+                        I am always looking to connect with fellow QA professionals and tech enthusiasts. Feel free to reach out to discuss:
+                    </p>
+                    <ul style="margin-top: 10px;">
+                        <li>Testing Trends & Strategies</li>
+                        <li>Automation Best Practices</li>
+                        <li>Generative AI in QA</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- MAGIC BENTO GRID FOR SKILLS -->
+    <section id="skills" class="skills-section">
+        <div class="container">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="bento-grid">
+                <div class="bento-item span-2-col span-2-row">
+                    <i class="ph ph-robot bento-icon" style="font-size: 4rem;"></i>
+                    <div class="bento-label" style="font-size: 1.2rem;">Selenium & Automation</div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 10px; max-width: 80%;">
+                        Expertise in building scalable regression suites and robust test scenarios.
+                    </p>
+                </div>
+
+                <div class="bento-item">
+                    <i class="ph ph-cloud bento-icon"></i>
+                    <div class="bento-label">AWS Cloud</div>
+                </div>
+                
+                <div class="bento-item">
+                    <i class="ph ph-git-branch bento-icon"></i>
+                    <div class="bento-label">Git & GitHub</div>
+                </div>
+
+                <div class="bento-item span-2-col">
+                    <i class="ph ph-bug-beetle bento-icon"></i>
+                    <div class="bento-label">JIRA & Defect Mgmt</div>
+                </div>
+
+                <div class="bento-item">
+                    <i class="ph ph-device-mobile bento-icon"></i>
+                    <div class="bento-label">Mobile Testing</div>
+                </div>
+
+                <div class="bento-item">
+                    <!-- Replaced terminal-window with webhooks-logo for Postman -->
+                    <i class="ph ph-webhooks-logo bento-icon"></i>
+                    <div class="bento-label">Postman API</div>
+                </div>
+
+                <div class="bento-item span-2-col">
+                    <i class="ph ph-brain bento-icon"></i>
+                    <div class="bento-label">Generative AI & Copilot</div>
+                </div>
+                
+                <div class="bento-item">
+                    <i class="ph ph-infinity bento-icon"></i>
+                    <div class="bento-label">Jenkins CI/CD</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-col">
+            <h3>Contact</h3>
+            <p>vaishnavkuttan96@gmail.com</p>
+            <p>+91-9840679845</p>
+            <p>West Guduvancheri, TN 603202</p>
+        </div>
+        <div class="footer-col">
+            <h3>Social</h3>
+            <a href="https://www.linkedin.com/in/vaishnav-kalaikumar" target="_blank">LinkedIn</a>
+            <a href="#">GitHub</a>
+            <a href="#">Instagram</a>
+        </div>
+        <div class="footer-col">
+            <h3>Navigation</h3>
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Vaishnav Kalaikumar. Designed with Code.
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // WELCOME SCREEN LOGIC
+        function enterPortfolio() {
+            const welcomeScreen = document.getElementById('welcome-screen');
+            welcomeScreen.classList.add('hidden');
+            document.body.classList.remove('welcome-active');
+            
+            // Forces the page to start from the very top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Modal Logic Functions
+        function openResumeModal() {
+            document.getElementById('resume-modal').classList.add('active');
+        }
+
+        function closeResumeModal() {
+            document.getElementById('resume-modal').classList.remove('active');
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = themeToggle.querySelector('i');
+            
+            // --- 3D PROFILE CARD LOGIC (NEW) ---
+            const card3d = document.getElementById('profile-card-3d');
+            const glare = card3d ? card3d.querySelector('.card-glare') : null;
+
+            if(card3d) {
+                card3d.addEventListener('mousemove', (e) => {
+                    const rect = card3d.getBoundingClientRect();
+                    
+                    // Calculate mouse position relative to card center
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    // Maximum rotation in degrees
+                    const maxRotation = 10; // Adjusted for subtle effect
+
+                    // Calculate rotation values (inverted for natural feel)
+                    const rotateX = ((y - centerY) / centerY) * -maxRotation;
+                    const rotateY = ((x - centerX) / centerX) * maxRotation;
+
+                    // Apply 3D Transform with scale
+                    card3d.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+
+                    // Move Glare (Opposite direction of mouse for realism)
+                    if(glare) {
+                        const glareX = ((x / rect.width) * 100);
+                        const glareY = ((y / rect.height) * 100);
+                        glare.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.2) 0%, transparent 50%)`;
+                        glare.style.opacity = '1';
+                    }
+                });
+
+                // Reset on mouse leave
+                card3d.addEventListener('mouseleave', () => {
+                    card3d.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                    if(glare) glare.style.opacity = '0';
+                });
+            }
+
+            // AUTO-DETECT SYSTEM THEME
+            
+            // Check system preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+                document.body.setAttribute('data-theme', 'light');
+                themeIcon.className = 'ph ph-sun';
+            }
+
+            // Text Animation
+            const heroTitle = document.getElementById('hero-title');
+            if (heroTitle) {
+                // We don't split text for gradient effect as it breaks the background-clip
+                // Just reveal it
+                setTimeout(() => {
+                    heroTitle.classList.add('loaded');
+                }, 100);
+            }
+
+            // Spotlight Logic
+            const cards = document.querySelectorAll('.spotlight-card, .carousel-card, .resume-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                });
+            });
+
+            // Tilted Card Button Logic
+            const tiltBtns = document.querySelectorAll('.tilted-card-btn');
+            
+            tiltBtns.forEach(tiltBtn => {
+                tiltBtn.addEventListener('mousemove', (e) => {
+                    const rect = tiltBtn.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = ((y - centerY) / centerY) * -15; 
+                    const rotateY = ((x - centerX) / centerX) * 15;
+
+                    tiltBtn.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                });
+
+                tiltBtn.addEventListener('mouseleave', () => {
+                    tiltBtn.style.transform = `perspective(1000px) rotateX(0) rotateY(0)`;
+                });
+            });
+            
+            // Tilted Modal Card Logic
+            const modalTiltCard = document.getElementById('resume-card-tilt');
+            if (modalTiltCard) {
+                modalTiltCard.addEventListener('mousemove', (e) => {
+                    const rect = modalTiltCard.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = ((y - centerY) / centerY) * -5;
+                    const rotateY = ((x - centerX) / centerX) * 5;
+
+                    modalTiltCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                });
+                
+                modalTiltCard.addEventListener('mouseleave', () => {
+                    modalTiltCard.style.transform = `perspective(1000px) rotateX(0) rotateY(0)`;
+                });
+            }
+
+            // Scroll Progress Logic
+            window.addEventListener('scroll', () => {
+                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (scrollTop / scrollHeight) * 100;
+                document.getElementById('scrollProgressBar').style.width = scrolled + '%';
+            });
+
+            // Theme Toggle Logic
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = document.body.getAttribute('data-theme');
+                if (currentTheme === 'light') {
+                    document.body.removeAttribute('data-theme');
+                    themeIcon.className = 'ph ph-moon'; 
+                } else {
+                    document.body.setAttribute('data-theme', 'light');
+                    themeIcon.className = 'ph ph-sun'; 
+                }
+            });
+            
+            window.addEventListener('click', (e) => {
+                const modal = document.getElementById('resume-modal');
+                if (e.target === modal) {
+                    closeResumeModal();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

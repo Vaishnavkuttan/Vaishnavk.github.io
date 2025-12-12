@@ -1,0 +1,58 @@
+/* --- LOGO LOOP (INFINITE SCROLL) --- */
+.logo-loop-container {
+    width: 100%;
+    overflow: hidden;
+    padding: 40px 0;
+    position: relative;
+    background: rgba(255, 255, 255, 0.01);
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+
+    margin-bottom: 150px;
+    z-index: 1;
+}
+
+.logo-track {
+    display: flex;
+    width: max-content;
+    animation: loopScroll 35s linear infinite;
+}
+
+.logo-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 50px;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+.logo-item i,
+.logo-item img {
+    font-size: 2rem;
+    color: var(--text-main);
+    /* Ensure images scale correctly if used alongside icons */
+    height: 32px;
+    width: auto;
+}
+
+.logo-item:hover {
+    color: var(--text-main);
+    opacity: 1;
+    transform: scale(1.05);
+    text-shadow: 0 0 15px var(--glass-border);
+}
+
+@keyframes loopScroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}

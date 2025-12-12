@@ -1,0 +1,139 @@
+/* --- HERO SECTION --- */
+.hero {
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+    perspective: 1000px;
+}
+
+.hero-title {
+    font-size: 4.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text-main);
+    line-height: 1.1;
+    letter-spacing: -1px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+}
+
+.gradient-text-component {
+    display: inline-block;
+    font-weight: 800;
+    /* Make it extra bold */
+}
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 800px;
+    margin-bottom: 40px;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.btn-primary {
+    padding: 12px 22px;
+    background: linear-gradient(90deg, var(--accent), #92FE9D);
+    color: #000;
+    text-transform: none;
+    font-size: 1rem;
+    letter-spacing: 0;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    font-weight: 700;
+    font-family: inherit;
+    text-decoration: none;
+    min-width: 160px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    /* Brightness or slight shift handled by transform */
+}
+
+.btn-ghost {
+    padding: 12px 22px;
+    background: transparent;
+    color: var(--text-secondary);
+    text-transform: none;
+    font-size: 1rem;
+    letter-spacing: 0;
+    border: 1px solid var(--glass-border);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    font-weight: 700;
+    font-family: inherit;
+    text-decoration: none;
+    min-width: 160px;
+}
+
+.btn-ghost:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-main);
+}
+
+/* Light Theme Button Adjustments */
+:global([data-theme="light"]) .btn-primary {
+    background: #0f172a;
+    /* Dark Slate / Black */
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+:global([data-theme="light"]) .btn-primary:hover {
+    transform: translateY(-4px);
+    background: #000000;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+:global([data-theme="light"]) .hero-title {
+    /* Ensure title container doesn't force white text */
+    color: inherit;
+}
+
+/* Ensure Gradient Text stands out in Light Mode */
+/* :global([data-theme="light"]) .gradient-text-component { } */
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .btn-primary,
+    .btn-ghost {
+        width: 100%;
+    }
+}
