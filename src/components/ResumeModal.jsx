@@ -82,7 +82,7 @@ const ResumeModal = ({ isOpen, onClose }) => {
                             >
                                 {/* PDF Preview (iframe) - Interactive for scrolling */}
                                 <iframe
-                                    src={`${resumePdf} #toolbar = 0 & navpanes=0 & scrollbar=1 & view=FitH`}
+                                    src={`${resumePdf}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`}
                                     className="w-full h-full border-none"
                                     title="Resume Preview"
                                 />
