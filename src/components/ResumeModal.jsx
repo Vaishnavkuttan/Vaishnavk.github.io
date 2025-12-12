@@ -4,8 +4,8 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PiX, PiFilePdf, PiFileDoc, PiDownloadSimple, PiEye } from 'react-icons/pi';
 import { useTilt } from '../hooks/useTilt';
-import resumePdf from '../assets/Vaishnav_Quality Analyst Engineer_Resume_2025.pdf?url';
-import resumeDoc from '../assets/Vaishnav_Quality Analyst Engineer_Resume_2025.docx?url';
+import resumePdf from '../assets/Vaishnav_Resume.pdf?url';
+import resumeDoc from '../assets/Vaishnav_Resume.docx?url';
 
 const ResumeModal = ({ isOpen, onClose }) => {
     const { ref, style, handleMouseMove, handleMouseLeave } = useTilt({
@@ -101,7 +101,7 @@ const ResumeModal = ({ isOpen, onClose }) => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-lg flex-shrink-0">
                             <a
                                 href={resumePdf}
-                                download="Vaishnav_Kalaikumar_Resume.pdf"
+                                download="Vaishnav_Resume.pdf"
                                 className="flex items-center justify-center gap-2 px-6 py-3 bg-[#0f172a] hover:bg-[#1e293b] text-white rounded-xl transition-all hover:-translate-y-1 shadow-lg group font-medium text-sm"
                             >
                                 <PiFilePdf size={20} className="text-red-400" />
@@ -109,7 +109,7 @@ const ResumeModal = ({ isOpen, onClose }) => {
                             </a>
                             <a
                                 href={resumeDoc}
-                                download="Vaishnav_Kalaikumar_Resume.docx"
+                                download="Vaishnav_Resume.docx"
                                 className="flex items-center justify-center gap-2 px-6 py-3 bg-[#0f172a] hover:bg-[#1e293b] text-white rounded-xl transition-all hover:-translate-y-1 shadow-lg group font-medium text-sm"
                             >
                                 <PiFileDoc size={20} className="text-blue-400" />
