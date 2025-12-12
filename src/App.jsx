@@ -7,7 +7,8 @@ import Experience from './components/Experience';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import BackgroundAnimation from './components/BackgroundAnimation';
+// import BackgroundAnimation from './components/BackgroundAnimation';
+import DarkVeil from './components/ui/DarkVeil';
 import WelcomeScreen from './components/WelcomeScreen';
 import LogoLoop from './components/LogoLoop';
 import Education from './components/Education';
@@ -19,7 +20,10 @@ function App() {
   return (
     <div className="relative min-h-screen">
       <ScrollProgress />
-      <BackgroundAnimation />
+      {/* <BackgroundAnimation /> */}
+      <div className="fixed inset-0 z-0">
+        <DarkVeil />
+      </div>
 
       <WelcomeScreen isActive={showWelcome} onEnter={() => setShowWelcome(false)} />
 
