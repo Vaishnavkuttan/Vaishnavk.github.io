@@ -50,7 +50,6 @@ const MOBILE_BREAKPOINT = 768;
 
 const cardData: BentoCardProps[] = [
     {
-        color: '#060010',
         title: 'Selenium Automation',
         description: 'Expertise in building scalable regression suites and robust test scenarios.',
         label: 'SELENIUM AUTOMATION',
@@ -59,21 +58,18 @@ const cardData: BentoCardProps[] = [
         icon: 'robot'
     },
     {
-        color: '#060010',
         title: 'AWS Cloud',
         description: 'Cloud Validation on S3/EC2/DeviceFarm/Lambda Services',
         label: 'AWS CLOUD',
         icon: 'cloud'
     },
     {
-        color: '#060010',
         title: 'Git & GitHub',
         description: 'Version Control',
         label: 'GIT & GITHUB',
         icon: 'git-branch'
     },
     {
-        color: '#060010',
         title: 'JIRA & Defect Mgmt',
         description: 'Agile Workflow',
         label: 'JIRA & DEFECT MGMT',
@@ -81,21 +77,18 @@ const cardData: BentoCardProps[] = [
         icon: 'bug-beetle'
     },
     {
-        color: '#060010',
         title: 'Mobile Testing',
         description: 'Android & iOS',
         label: 'MOBILE TESTING',
         icon: 'device-mobile'
     },
     {
-        color: '#060010',
         title: 'Postman API',
         description: 'API Testing',
         label: 'POSTMAN API',
         icon: 'webhooks-logo'
     },
     {
-        color: '#060010',
         title: 'Generative AI & Copilot',
         description: 'AI Integration',
         label: 'GENERATIVE AI & COPILOT',
@@ -103,7 +96,6 @@ const cardData: BentoCardProps[] = [
         icon: 'brain'
     },
     {
-        color: '#060010',
         title: 'Jenkins CI/CD',
         description: 'Continuous Integration',
         label: 'JENKINS CI/CD',
@@ -719,7 +711,7 @@ const MagicBento: React.FC<BentoProps> = ({
                         const baseClassName = `card flex flex-col justify-center items-center relative w-full h-full p-6 rounded-[16px] border border-solid font-light overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-lg hover:z-10 ${enableBorderGlow ? 'card--border-glow' : ''}`;
 
                         const cardStyle = {
-                            backgroundColor: card.color || 'var(--background-dark)', // Use CSS var if defined, else fallback
+                            backgroundColor: card.color || 'var(--card-bg, var(--background-dark))', // Use CSS var if defined, else fallback
                             borderColor: 'var(--glass-border)',
                             color: 'var(--text-main)',
                             '--glow-x': '50%',

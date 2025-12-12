@@ -35,7 +35,11 @@
   --bento-bg: rgba(255, 255, 255, 0.03);
   --bento-hover-bg: rgba(255, 255, 255, 0.08);
   --bento-border-hover: rgba(255, 255, 255, 0.25);
+  --bento-bg: rgba(255, 255, 255, 0.03);
+  --bento-hover-bg: rgba(255, 255, 255, 0.08);
+  --bento-border-hover: rgba(255, 255, 255, 0.25);
   --card-img-bg: rgba(255, 255, 255, 0.03);
+  --card-bg: #060010;
 
   /* Background Elements */
   --prism-blob-1: rgba(0, 201, 255, 0.3);
@@ -66,6 +70,7 @@
   --bento-hover-bg: #ffffff;
   --bento-border-hover: rgba(0, 0, 0, 0.1);
   --card-img-bg: #f1f5f9;
+  --card-bg: #ffffff;
 
   --prism-blob-1: rgba(56, 189, 248, 0.15);
   --prism-blob-2: rgba(52, 211, 153, 0.15);
