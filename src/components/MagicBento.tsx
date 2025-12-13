@@ -8,13 +8,7 @@ import {
     PiDeviceMobile,
     PiWebhooksLogo,
     PiBrain,
-    PiInfinity,
-    PiChartLine,
-    PiSquaresFour,
-    PiUsers,
-    PiLightning,
-    PiPlugs,
-    PiShieldCheck
+    PiInfinity
 } from 'react-icons/pi';
 
 export interface BentoCardProps {
@@ -45,7 +39,7 @@ export interface BentoProps {
 
 const DEFAULT_PARTICLE_COUNT = 12;
 const DEFAULT_SPOTLIGHT_RADIUS = 300;
-const DEFAULT_GLOW_COLOR = '132, 0, 255';
+const DEFAULT_GLOW_COLOR = '64, 121, 255'; // Royal Blue
 const MOBILE_BREAKPOINT = 768;
 
 const cardData: BentoCardProps[] = [
@@ -577,12 +571,12 @@ const MagicBento: React.FC<BentoProps> = ({
             --glow-intensity: 0;
             --glow-radius: 200px;
             --glow-color: ${glowColor};
-            --border-color: #392e4e;
+            --border-color: #4079ff;
             --background-dark: #060010;
             --white: hsl(0, 0%, 100%);
-            --purple-primary: rgba(132, 0, 255, 1);
-            --purple-glow: rgba(132, 0, 255, 0.2);
-            --purple-border: rgba(132, 0, 255, 0.8);
+            --purple-primary: #40ffaa;
+            --purple-glow: rgba(64, 255, 170, 0.2);
+            --purple-border: rgba(64, 121, 255, 0.8);
           }
           
           .card-responsive {
@@ -625,15 +619,18 @@ const MagicBento: React.FC<BentoProps> = ({
             inset: 0;
             padding: 6px;
             background: radial-gradient(var(--glow-radius) circle at var(--glow-x) var(--glow-y),
-                rgba(${glowColor}, calc(var(--glow-intensity) * 0.8)) 0%,\n                rgba(${glowColor}, calc(var(--glow-intensity) * 0.4)) 30%,\n                transparent 60%);
+                #40ffaa 0%,
+                #4079ff 25%,
+                #40ffaa 50%,
+                transparent 100%);
             border-radius: inherit;
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask-composite: exclude;
             pointer-events: none;
-            opacity: 1;
-            transition: opacity 0.3s ease;
+            opacity: var(--glow-intensity);
+            transition: opacity 0.1s ease;
             z-index: 1;
           }
           
@@ -642,7 +639,7 @@ const MagicBento: React.FC<BentoProps> = ({
           }
           
           .card--border-glow:hover {
-            box-shadow: 0 4px 20px rgba(46, 24, 78, 0.4), 0 0 30px rgba(${glowColor}, 0.2);
+            box-shadow: 0 4px 20px rgba(64, 121, 255, 0.4), 0 0 30px rgba(64, 255, 170, 0.3);
           }
           
           .particle::before {
@@ -658,7 +655,7 @@ const MagicBento: React.FC<BentoProps> = ({
           }
           
           .particle-container:hover {
-            box-shadow: 0 4px 20px rgba(46, 24, 78, 0.2), 0 0 30px rgba(${glowColor}, 0.2);
+            box-shadow: 0 4px 20px rgba(64, 121, 255, 0.2), 0 0 30px rgba(64, 255, 170, 0.2);
           }
           
           .text-clamp-1 {
@@ -747,7 +744,7 @@ const MagicBento: React.FC<BentoProps> = ({
                                     clickEffect={clickEffect}
                                     enableMagnetism={enableMagnetism}
                                 >
-                                    {Icon && <Icon size={40} className="mb-4 text-text-secondary group-hover:text-text-main transition-colors" />}
+                                    {Icon && <Icon size={40} className="mb-4 text-text-secondary group-hover:text-[#40ffaa] transition-colors" />}
                                     <div className="card__header flex justify-between gap-3 relative text-text-main">
                                         <span className="card__label text-lg font-semibold uppercase tracking-wide">{card.label}</span>
                                     </div>

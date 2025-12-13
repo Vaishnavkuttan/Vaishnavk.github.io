@@ -78,20 +78,12 @@ const Hero = () => {
                         </motion.div>
 
                         {/* Content inside card */}
-                        <div className="h-full w-full bg-glass-bg border border-glass-border rounded-xl overflow-hidden relative">
-                            {/* Placeholder for Profile or Abstract Automation visual */}
-                            <div className="absolute inset-0 flex items-center justify-center opacity-30 text-text-main font-mono text-xs p-4">
-                                <code>
-                                    &lt;Automation&gt;<br />
-                                    &nbsp;&nbsp;framework.init();<br />
-                                    &nbsp;&nbsp;await tests.run({'{'}<br />
-                                    &nbsp;&nbsp;&nbsp;&nbsp;parallel: true,<br />
-                                    &nbsp;&nbsp;&nbsp;&nbsp;browser: 'chrome'<br />
-                                    &nbsp;&nbsp;{'}'});<br />
-                                    &lt;/Automation&gt;
-                                </code>
-                            </div>
-                            {/* You can Replace with <img src={profilePic} /> if user provides one */}
+                        <div className="h-full w-full bg-glass-bg border border-glass-border rounded-xl overflow-hidden relative flex items-center justify-center p-8">
+                            <img
+                                src={`${import.meta.env.BASE_URL}Vaishnav.svg`}
+                                alt="Vaishnav Logo"
+                                className="w-full h-full object-contain opacity-90 drop-shadow-[0_0_15px_rgba(64,255,170,0.3)]"
+                            />
                         </div>
 
                         <div className="absolute bottom-6 left-6 right-6">
