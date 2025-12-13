@@ -1,0 +1,57 @@
+/* Aurora.module.css */
+.aurora-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* z-index -1 ensures it stays behind content in the container */
+
+.aurora-blob {
+    position: absolute;
+    filter: blur(60px);
+    opacity: 0.6;
+    border-radius: 50%;
+    animation: aurora-float 6s infinite alternate ease-in-out;
+    mix-blend-mode: screen;
+}
+
+.blob-1 {
+    top: -10%;
+    left: -10%;
+    width: 60%;
+    height: 60%;
+    background: var(--accent-cyan);
+    animation-delay: 0s;
+}
+
+.blob-2 {
+    bottom: -10%;
+    right: -10%;
+    width: 60%;
+    height: 60%;
+    background: var(--accent-green);
+    animation-delay: -5s;
+}
+
+.blob-3 {
+    top: 40%;
+    left: 40%;
+    width: 50%;
+    height: 50%;
+    background: #ffffff;
+    opacity: 0.15;
+    animation-delay: -2s;
+}
+
+@keyframes aurora-float {
+    0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(50px, -50px) scale(1.2) rotate(10deg);
+    }
+}

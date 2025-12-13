@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PiX, PiFilePdf, PiFileDoc, PiDownloadSimple, PiEye } from 'react-icons/pi';
 import { useTilt } from '../hooks/useTilt';
+import spotlightStyles from './SpotlightCard.module.css';
 import resumePdf from '../assets/Vaishnav_Resume.pdf?url';
 import resumeDoc from '../assets/Vaishnav_Resume.docx?url';
 
@@ -55,14 +56,14 @@ const ResumeModal = ({ isOpen, onClose }) => {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 10 }}
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        className="relative w-full max-w-3xl h-[85vh] bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-white/20 dark:border-slate-700/50 rounded-3xl p-6 shadow-2xl flex flex-col items-center gap-4"
+                        className="relative w-full max-w-2xl h-[80vh] bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-white/20 dark:border-slate-700/50 rounded-3xl p-6 shadow-2xl flex flex-col items-center gap-4"
                     >
                         {/* Header */}
-                        <div className="w-full flex justify-between items-center flex-shrink-0">
+                        <div className="w-full relative flex justify-center items-center flex-shrink-0">
                             <h2 className="text-xl font-bold text-slate-800 dark:text-white">Resume Preview</h2>
                             <button
                                 onClick={onClose}
-                                className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-colors"
+                                className="absolute right-0 p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-colors"
                             >
                                 <PiX size={24} />
                             </button>
@@ -72,13 +73,23 @@ const ResumeModal = ({ isOpen, onClose }) => {
                         <div className="relative w-full flex-grow flex justify-center perspective-1000 min-h-0 py-2">
                             <div
                                 ref={ref}
-                                onMouseMove={handleMouseMove}
+                                onMouseMove={(e) => {
+                                    handleMouseMove(e);
+                                    const card = ref.current;
+                                    if (card) {
+                                        const rect = card.getBoundingClientRect();
+                                        const x = e.clientX - rect.left;
+                                        const y = e.clientY - rect.top;
+                                        card.style.setProperty('--mouse-x', `${x}px`);
+                                        card.style.setProperty('--mouse-y', `${y}px`);
+                                    }
+                                }}
                                 onMouseLeave={handleMouseLeave}
                                 style={{
                                     ...style,
                                     transformStyle: 'preserve-3d',
                                 }}
-                                className="relative w-full max-w-xl h-full bg-white rounded shadow-2xl overflow-hidden border border-slate-200"
+                                className={`${spotlightStyles['spotlight-card']} relative w-full max-w-xl h-full bg-white rounded shadow-2xl overflow-hidden border border-slate-200`}
                             >
                                 {/* PDF Preview (iframe) - Interactive for scrolling */}
                                 <iframe

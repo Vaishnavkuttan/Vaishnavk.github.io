@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { PiDownloadSimple as DownloadSimple, PiGithubLogo as GithubLogo, PiLinkedinLogo as LinkedinLogo, PiCode as Code } from 'react-icons/pi';
+import { PiDownloadSimple as DownloadSimple, PiGithubLogo as GithubLogo, PiLinkedinLogo as LinkedinLogo, PiCode as Code, PiEnvelopeSimple as EnvelopeSimple } from 'react-icons/pi';
 import { resumeData } from '../data/resume';
 import ResumeModal from './ResumeModal';
 
@@ -50,7 +50,7 @@ const Hero = () => {
                                 <LinkedinLogo size={24} weight="fill" />
                             </a>
                             <a href={`mailto:${profile.email}`} className="p-3 bg-glass-bg border border-glass-border rounded-full hover:bg-accent-green/20 hover:border-accent-green text-text-main hover:text-accent-green transition-all duration-300">
-                                <GithubLogo size={24} weight="fill" />
+                                <EnvelopeSimple size={24} weight="fill" />
                             </a>
                         </div>
                     </div>
