@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { PiDownloadSimple as DownloadSimple, PiGithubLogo as GithubLogo, PiLinkedinLogo as LinkedinLogo, PiCode as Code, PiEnvelopeSimple as EnvelopeSimple } from 'react-icons/pi';
 import { resumeData } from '../data/resume';
 import ResumeModal from './ResumeModal';
+// import LordIcon from './ui/LordIcon';
+// import repositoryIcon from '../assets/repository-icon.json';
 
 const Hero = () => {
     const { profile } = resumeData;
@@ -76,6 +78,7 @@ const Hero = () => {
                         <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }} className="absolute bottom-10 -left-8 p-4 glass rounded-2xl z-20">
                             <Code size={32} className="text-accent-cyan" />
                         </motion.div>
+                        {/* <LordIcon iconData={repositoryIcon} size={40} colors="primary:#00c9ff,secondary:#40ffaa" /> */}
 
                         {/* Content inside card */}
                         <div className="h-full w-full bg-glass-bg border border-glass-border rounded-xl overflow-hidden relative">
