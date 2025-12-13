@@ -32,6 +32,28 @@ const Navbar = () => {
         localStorage.setItem('theme', theme);
     }, [theme]);
 
+    const [isFooterVisible, setIsFooterVisible] = useState(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setIsFooterVisible(entry.isIntersecting);
+            },
+            { threshold: 0 }
+        );
+
+        const footer = document.getElementById('footer');
+        if (footer) {
+            observer.observe(footer);
+        }
+
+        return () => {
+            if (footer) {
+                observer.unobserve(footer);
+            }
+        };
+    }, []);
+
     const toggleTheme = () => {
         setTheme(prevTheme => prevTheme === 'dark' ? 'light' : 'dark');
     };
@@ -39,7 +61,7 @@ const Navbar = () => {
     return (
         <motion.nav
             initial={{ y: 100, x: "-50%" }}
-            animate={{ y: 0, x: "-50%" }}
+            animate={{ y: isFooterVisible ? -60 : 0, x: "-50%" }}
             className="fixed bottom-8 left-1/2 z-50 bg-glass-bg backdrop-blur-md border border-glass-border border-t-glass-highlight shadow-glass-shadow rounded-full px-8 py-3 flex items-center gap-6 transition-all duration-300"
         >
             <ul className="flex gap-6 m-0 p-0">
