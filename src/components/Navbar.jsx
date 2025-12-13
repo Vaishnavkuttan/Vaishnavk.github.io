@@ -9,7 +9,7 @@ const navLinks = [
     { name: 'Experience', to: 'experience', icon: PiTrendUp },
     { name: 'About', to: 'about', icon: User },
     { name: 'Skills', to: 'skills', icon: PiLightning },
-    { name: 'Contact', to: 'contact', icon: EnvelopeSimple },
+
 ];
 
 const Navbar = () => {
