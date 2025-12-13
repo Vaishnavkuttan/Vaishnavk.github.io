@@ -9,14 +9,14 @@ const LogoLoop = () => {
                 {/* Set 1 */}
                 {logosData.map((logo, index) => (
                     <div key={`set1-${index}`} className={styles['logo-item']} title={logo.title}>
-                        <i className={`ph ${logo.icon}`}></i> {logo.label}
+                        <logo.icon className="text-2xl" /> {logo.label}
                     </div>
                 ))}
 
                 {/* Set 2 (Duplicate for seamless loop) */}
                 {logosData.map((logo, index) => (
                     <div key={`set2-${index}`} className={styles['logo-item']} title={logo.title}>
-                        <i className={`ph ${logo.icon}`}></i> {logo.label}
+                        <logo.icon className="text-2xl" /> {logo.label}
                     </div>
                 ))}
             </div>

@@ -16,4 +16,7 @@ export default defineConfig({
     strictPort: true,
     host: true,
   },
+  build: {
+    chunkSizeWarningLimit: 1600,
+  },
 });
