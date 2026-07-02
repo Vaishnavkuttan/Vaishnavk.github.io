@@ -131,6 +131,25 @@
     color: var(--muted);
     margin-top: 2px;
   }
+  .watch-link {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255, 138, 91, 0.12);
+    color: var(--accent);
+    border: 1px solid rgba(255, 138, 91, 0.35);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 2px;
+    white-space: nowrap;
+  }
+  .watch-link:active {
+    opacity: 0.7;
+  }
   .reset-btn {
     display: block;
     width: 100%;
@@ -173,23 +192,23 @@
 <script>
 const data = [
   { day: 1, title: "Day 1 — Core Concepts", total: "9h 42m", items: [
-    { id: "p1", title: "Part-1: Intro to Software Testing", dur: "52:37" },
-    { id: "p2", title: "Part-2: SDLC, Waterfall, Spiral, V-Model", dur: "1:38:19" },
-    { id: "p3", title: "Part-3: Static/Dynamic Testing, QA vs QC", dur: "1:26:50" },
-    { id: "p4", title: "Part-4: System Testing Types", dur: "1:57:33" },
-    { id: "p5", title: "Part-5: Regression, Smoke, Exploratory Testing", dur: "1:21:17" },
-    { id: "p6", title: "Part-6: Test Case Design Techniques", dur: "47:18" },
-    { id: "p7", title: "Part-7: STLC", dur: "48:47" },
-    { id: "p8", title: "Part-8: Test Plan, RTM, Defect Reporting", dur: "1:25:42" },
-    { id: "p9", title: "Part-9: Defect Life Cycle, Metrics, Principles", dur: "43:55" },
+    { id: "p1", title: "Part-1: Intro to Software Testing", dur: "52:37", link: "https://youtu.be/oOvURgHcd4w" },
+    { id: "p2", title: "Part-2: SDLC, Waterfall, Spiral, V-Model", dur: "1:38:19", link: "https://youtu.be/5_gi2-SZZWM" },
+    { id: "p3", title: "Part-3: Static/Dynamic Testing, QA vs QC", dur: "1:26:50", link: "https://youtu.be/MasXvD3z7uE" },
+    { id: "p4", title: "Part-4: System Testing Types", dur: "1:57:33", link: "https://youtu.be/G0bnna1Wxs4" },
+    { id: "p5", title: "Part-5: Regression, Smoke, Exploratory Testing", dur: "1:21:17", link: "https://youtu.be/0gpm4llQ06Y" },
+    { id: "p6", title: "Part-6: Test Case Design Techniques", dur: "47:18", link: "https://youtu.be/Wsw0pywdR5k" },
+    { id: "p7", title: "Part-7: STLC", dur: "48:47", link: "https://youtu.be/_AnZUfQigr0" },
+    { id: "p8", title: "Part-8: Test Plan, RTM, Defect Reporting", dur: "1:25:42", link: "https://youtu.be/iAo_aFOwxSs" },
+    { id: "p9", title: "Part-9: Defect Life Cycle, Metrics, Principles", dur: "43:55", link: "https://youtu.be/D2HwMQnccEI" },
   ]},
   { day: 2, title: "Day 2 — Live Project + Tools", total: "8h 38m", items: [
-    { id: "lp1", title: "Live Project: Intro, AUT, FRS, Test Plan", dur: "1:23:39" },
-    { id: "lp2", title: "Live Project: RTM, Test Cases", dur: "1:19:43" },
-    { id: "lp3", title: "Live Project: Review, Env Setup, Smoke/Sanity", dur: "1:22:31" },
-    { id: "lp4", title: "Live Project: Execution, Bug Reporting, Regression", dur: "1:06:17" },
-    { id: "agile", title: "Agile Scrum Methodology", dur: "1:18:29" },
-    { id: "jira", title: "Jira Tool | Agile Project Management", dur: "2:07:49" },
+    { id: "lp1", title: "Live Project: Intro, AUT, FRS, Test Plan", dur: "1:23:39", link: "https://youtu.be/vv2PskqvGRA" },
+    { id: "lp2", title: "Live Project: RTM, Test Cases", dur: "1:19:43", link: "https://youtu.be/igyIAi0GND8" },
+    { id: "lp3", title: "Live Project: Review, Env Setup, Smoke/Sanity", dur: "1:22:31", link: "https://youtu.be/DtMOd8RDy20" },
+    { id: "lp4", title: "Live Project: Execution, Bug Reporting, Regression", dur: "1:06:17", link: "https://youtu.be/SB0g8wkPz9o" },
+    { id: "agile", title: "Agile Scrum Methodology", dur: "1:18:29", link: "https://youtu.be/h2Xzq2fbafM" },
+    { id: "jira", title: "Jira Tool | Agile Project Management", dur: "2:07:49", link: "https://youtu.be/Wgyirv9juFI" },
   ]},
 ];
 
@@ -243,8 +262,10 @@ function render() {
           <div class="item-title">${item.title}</div>
           <div class="item-duration">${item.dur}</div>
         </div>
+        <a class="watch-link" href="${item.link}" target="_blank" rel="noopener">▶ Watch</a>
       `;
-      el.addEventListener('click', async () => {
+      el.addEventListener('click', async (e) => {
+        if (e.target.closest('.watch-link')) return;
         state[item.id] = !state[item.id];
         await saveState();
         render();
