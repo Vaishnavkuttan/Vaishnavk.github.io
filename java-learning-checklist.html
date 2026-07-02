@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Learning Tracker — Selenium Java</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --card: #171a21;
+    --accent: #ff8a5b;
+    --accent2: #5bc0ff;
+    --text: #e8e8ec;
+    --muted: #9a9ea8;
+    --done: #3ddc84;
+    --border: #262a33;
+    --must: #ff8a5b;
+    --nice: #f7d154;
+    --skip: #6b7280;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 20px 14px 60px;
+  }
+  h1 {
+    font-size: 1.25rem;
+    margin: 0 0 4px;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 18px;
+  }
+  .progress-wrap {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+    border: 1px solid var(--border);
+  }
+  .progress-bar-bg {
+    background: #232733;
+    border-radius: 8px;
+    height: 10px;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .progress-bar-fill {
+    background: linear-gradient(90deg, var(--accent), var(--done));
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 20px;
+    padding: 7px 14px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .filter-btn.active {
+    background: var(--accent);
+    color: #0f1115;
+    border-color: var(--accent);
+  }
+  .section-block {
+    margin-bottom: 20px;
+  }
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 4px;
+    cursor: pointer;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: 0.98rem;
+    font-weight: 700;
+  }
+  .section-meta {
+    font-size: 0.75rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-chevron {
+    transition: transform 0.2s;
+    color: var(--muted);
+  }
+  .section-chevron.collapsed {
+    transform: rotate(-90deg);
+  }
+  .section-items {
+    overflow: hidden;
+  }
+  .section-items.collapsed {
+    display: none;
+  }
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 12px;
+    margin-bottom: 7px;
+    cursor: pointer;
+    transition: border-color 0.2s, opacity 0.2s;
+  }
+  .item:active {
+    opacity: 0.7;
+  }
+  .item.checked {
+    border-color: var(--done);
+    background: #142019;
+  }
+  .item.hidden {
+    display: none;
+  }
+  .checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    border: 2px solid var(--muted);
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  .item.checked .checkbox {
+    background: var(--done);
+    border-color: var(--done);
+    color: #0f1115;
+  }
+  .item-text {
+    flex: 1;
+    min-width: 0;
+  }
+  .item-title-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .item-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  .item.checked .item-title {
+    text-decoration: line-through;
+    color: var(--muted);
+  }
+  .badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .badge-must { background: rgba(255,138,91,0.15); color: var(--must); }
+  .badge-nice { background: rgba(247,209,84,0.15); color: var(--nice); }
+  .badge-skip { background: rgba(107,114,128,0.2); color: var(--skip); }
+  .item-why {
+    font-size: 0.76rem;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .watch-link {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255, 138, 91, 0.12);
+    color: var(--accent);
+    border: 1px solid rgba(255, 138, 91, 0.35);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 2px;
+    white-space: nowrap;
+  }
+  .watch-link.disabled {
+    opacity: 0.35;
+    pointer-events: none;
+  }
+  .watch-link:active {
+    opacity: 0.7;
+  }
+  .reset-btn {
+    display: block;
+    width: 100%;
+    margin-top: 24px;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 10px;
+    font-size: 0.85rem;
+  }
+  .loading {
+    text-align: center;
+    color: var(--muted);
+    padding: 20px;
+    font-size: 0.85rem;
+  }
+</style>
+</head>
+<body>
+
+<h1>Java Learning Tracker</h1>
+<div class="subtitle">Selenium Java · 95 topics across 13 sections</div>
+
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span id="progressText">0 / 95 completed</span>
+    <span id="progressPct">0%</span>
+  </div>
+  <div class="progress-bar-bg">
+    <div class="progress-bar-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<div class="filter-bar" id="filterBar">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="Must Watch">Must Watch</button>
+  <button class="filter-btn" data-filter="Nice to Know">Nice to Know</button>
+  <button class="filter-btn" data-filter="Skip">Skip</button>
+</div>
+
+<div id="loadingMsg" class="loading">Loading your progress…</div>
+<div id="checklistRoot" style="display:none;"></div>
+
+<button class="reset-btn" id="resetBtn">Reset all progress</button>
+
+<script>
+const data = [{"section": "Java Basics & Setup", "items": [{"topic": "JDK Setup", "priority": "Must Watch", "why": "Set up your test environment correctly", "link": "https://www.youtube.com/watch?v=WRISYpKhIrc&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=2", "vnum": 2.0, "done": true}, {"topic": "First Code in Java", "priority": "Must Watch", "why": "Get comfortable with JShell / VS Code", "link": "https://www.youtube.com/watch?v=tSqNBjGacYk&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=3", "vnum": 3.0, "done": true}, {"topic": "How Java Works", "priority": "Must Watch", "why": "JVM / bytecode mental model — interview-ready", "link": "https://www.youtube.com/watch?v=NHrsLjhjmi4&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=4", "vnum": 4.0, "done": true}, {"topic": "Variables", "priority": "Must Watch", "why": "Storing test data, element text, counters", "link": "https://www.youtube.com/watch?v=9RCuKrze_-k&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=5", "vnum": 5.0, "done": true}, {"topic": "Data Types", "priority": "Must Watch", "why": "int, String, boolean — used constantly", "link": "https://www.youtube.com/watch?v=Le25I331_yU&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=6", "vnum": 6.0, "done": true}, {"topic": "Literal", "priority": "Must Watch", "why": "Quick skim (4 min)", "link": "https://www.youtube.com/watch?v=iZXLCM5bzRI&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=7", "vnum": 7.0, "done": true}, {"topic": "Type Conversion", "priority": "Must Watch", "why": "Casting WebElement counts, index values", "link": "https://www.youtube.com/watch?v=CPk8pffKV64&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=8", "vnum": 8.0, "done": true}]}, {"section": "Operators & Control Flow", "items": [{"topic": "Arithmetic Operators", "priority": "Must Watch", "why": "Loop counters, index math", "link": "https://www.youtube.com/watch?v=flWjzwzgybI&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=9", "vnum": 9.0, "done": true}, {"topic": "Relational Operators", "priority": "Must Watch", "why": "Assertion conditions (== != > <)", "link": "https://www.youtube.com/watch?v=TEJpeRI_NEo&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=11", "vnum": 10.0, "done": true}, {"topic": "Logical Operators", "priority": "Must Watch", "why": "&& || ! in test validations", "link": "https://www.youtube.com/watch?v=hLimYJZQ2kc&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=12", "vnum": 11.0, "done": true}, {"topic": "If Else", "priority": "Must Watch", "why": "Conditional assertions in test steps", "link": "https://www.youtube.com/watch?v=74Q7POjS7mQ&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=13", "vnum": 12.0, "done": true}, {"topic": "If Else If", "priority": "Must Watch", "why": "Multi-branch test logic", "link": "https://www.youtube.com/watch?v=Tn6BNLD0PmU&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=14", "vnum": 13.0, "done": true}, {"topic": "Ternary", "priority": "Must Watch", "why": "Concise inline conditions", "link": "https://www.youtube.com/watch?v=kBdZBbWZ2a4&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=15", "vnum": 14.0, "done": true}, {"topic": "Switch Statement", "priority": "Must Watch", "why": "Browser/env switching in config", "link": "https://www.youtube.com/watch?v=IrQKDdptiw8&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=16", "vnum": 15.0, "done": true}, {"topic": "Need For Loop", "priority": "Must Watch", "why": "Quick intro (3 min), watch it", "link": "https://www.youtube.com/watch?v=mh3sTmXWMLE&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=18", "vnum": 16.0, "done": true}, {"topic": "While Loop", "priority": "Must Watch", "why": "Wait-until patterns", "link": "https://www.youtube.com/watch?v=mzt5tmV7wxI&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=19", "vnum": 17.0, "done": true}, {"topic": "Do While Loop", "priority": "Must Watch", "why": "Good to know", "link": "https://www.youtube.com/watch?v=zzBVTwpfYr0&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=20", "vnum": 18.0, "done": true}, {"topic": "For Loop", "priority": "Must Watch", "why": "Iterate WebElement lists, tables, dropdowns", "link": "https://www.youtube.com/watch?v=gu6Agiy2xBg&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=21", "vnum": 19.0, "done": true}, {"topic": "Which Loop To Use", "priority": "Must Watch", "why": "Short decision guide — watch it", "link": "https://www.youtube.com/watch?v=uO5nSTJ9Iz4&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=22", "vnum": 20.0, "done": true}]}, {"section": "Classes & Objects", "items": [{"topic": "Class And Object Theory", "priority": "Must Watch", "why": "POM: every page = a class", "link": "https://www.youtube.com/watch?v=Znmz_WxMxp4&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=23", "vnum": 21.0, "done": true}, {"topic": "Class and Object Practical", "priority": "Must Watch", "why": "Hands-on with Calculator class", "link": "https://www.youtube.com/watch?v=3yOLNV9BF8A&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=24", "vnum": 22.0, "done": true}, {"topic": "JDK JRE JVM", "priority": "Must Watch", "why": "Skim — useful for interviews", "link": "https://www.youtube.com/watch?v=s7UgQ7_1KQY&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=25", "vnum": 23.0, "done": true}, {"topic": "Methods", "priority": "Must Watch", "why": "click(), type(), verify() = your page methods", "link": "https://www.youtube.com/watch?v=KSS3MUbBWLk&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=26", "vnum": 24.0, "done": true}, {"topic": "Method Overloading", "priority": "Must Watch", "why": "Overloaded helpers in page classes", "link": "https://www.youtube.com/watch?v=KpwBVAYbPDA&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=27", "vnum": 25.0, "done": true}, {"topic": "Stack And Heap", "priority": "Must Watch", "why": "Skim — abstract understanding enough", "link": "https://www.youtube.com/watch?v=_GK3WoFFKUE&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=28", "vnum": 26.0, "done": true}]}, {"section": "Arrays", "items": [{"topic": "Need of an Array", "priority": "Must Watch", "why": "Quick context (4 min)", "link": "https://www.youtube.com/watch?v=uidBSlGLUK4&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=29", "vnum": 27.0, "done": true}, {"topic": "Creation of Array", "priority": "Must Watch", "why": "Declare test data arrays", "link": "https://www.youtube.com/watch?v=239ubH043lI&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=30", "vnum": 28.0, "done": true}, {"topic": "Multi Dimensional Array", "priority": "Must Watch", "why": "2D arrays for @DataProvider in TestNG", "link": "https://www.youtube.com/watch?v=v4J2bEQF6jk&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=31", "vnum": 29.0, "done": true}, {"topic": "Jagged and 3D Array", "priority": "Skip", "why": "Skip — not needed for Selenium", "link": "", "vnum": 30.0, "done": false}, {"topic": "Array of Objects", "priority": "Must Watch", "why": "Store multiple page/element objects", "link": "https://www.youtube.com/watch?v=2j64wdFNWyE&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=34", "vnum": 31.0, "done": true}, {"topic": "Drawbacks of Array", "priority": "Must Watch", "why": "Why you use Collections instead", "link": "https://www.youtube.com/watch?v=82z4XJx6y3M&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=33", "vnum": 32.0, "done": true}, {"topic": "Enhanced For Loop", "priority": "Must Watch", "why": "Loop through List<WebElement> cleanly", "link": "https://www.youtube.com/watch?v=KcJX6XGmB-o&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=35", "vnum": 33.0, "done": true}]}, {"section": "Strings", "items": [{"topic": "What is String", "priority": "Must Watch", "why": "getText(), contains(), equals() — daily use", "link": "https://www.youtube.com/watch?v=cV-sOpOgof8&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=36", "vnum": 34.0, "done": false}, {"topic": "Mutable vs Immutable String", "priority": "Must Watch", "why": "Understand String pool behavior", "link": "https://www.youtube.com/watch?v=JjIewPuyexA&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=37", "vnum": 35.0, "done": false}, {"topic": "StringBuffer and StringBuilder", "priority": "Must Watch", "why": "Dynamic URL / XPath building", "link": "https://www.youtube.com/watch?v=WQ4aA4-MESE&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=38", "vnum": 36.0, "done": false}]}, {"section": "Encapsulation & Static", "items": [{"topic": "Encapsulation", "priority": "Must Watch", "why": "Private WebDriver with public getters", "link": "https://www.youtube.com/watch?v=YbqneqDIZh8&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=42", "vnum": 37.0, "done": true}, {"topic": "Getters and Setters", "priority": "Must Watch", "why": "Page class property access", "link": "https://www.youtube.com/watch?v=VCHq1FEbZ3I&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=43", "vnum": 38.0, "done": true}, {"topic": "this Keyword", "priority": "Must Watch", "why": "Resolve naming conflicts in constructors", "link": "https://www.youtube.com/watch?v=k_SJOnVa_G0&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=44", "vnum": 39.0, "done": true}, {"topic": "Constructor", "priority": "Must Watch", "why": "Initialize page objects with driver", "link": "https://www.youtube.com/watch?v=UC_aqNUFyVI&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=45", "vnum": 40.0, "done": true}, {"topic": "Default vs Parameterized Constructor", "priority": "Must Watch", "why": "Pass WebDriver into page classes", "link": "https://www.youtube.com/watch?v=49ptL_q7sxU&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=46", "vnum": 41.0, "done": true}, {"topic": "Static Variable", "priority": "Must Watch", "why": "Shared driver instance across test classes", "link": "https://www.youtube.com/watch?v=7HYaQOyvw7Q&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=39", "vnum": 42.0, "done": true}, {"topic": "Static Method", "priority": "Must Watch", "why": "Utility helpers (DriverFactory, ConfigReader)", "link": "https://www.youtube.com/watch?v=zySudOTN05I&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=40", "vnum": 43.0, "done": true}, {"topic": "Static Block", "priority": "Must Watch", "why": "One-time setup when class loads", "link": "https://www.youtube.com/watch?v=_7q4kMfJPDw&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=41", "vnum": 44.0, "done": true}, {"topic": "Naming Convention", "priority": "Skip", "why": "Skim — 4 min only", "link": "https://www.youtube.com/watch?v=QZ1bsTqxmAw&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=47", "vnum": 45.0, "done": true}, {"topic": "Anonymous Object", "priority": "Skip", "why": "Can skip — rarely used in automation", "link": "https://www.youtube.com/watch?v=ndTM5I2vtYQ&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=48", "vnum": 46.0, "done": true}]}, {"section": "Inheritance & Polymorphism", "items": [{"topic": "What is Inheritance", "priority": "Must Watch", "why": "BaseTest → all test classes inherit it", "link": "https://www.youtube.com/watch?v=dFuVh_Bzy9c&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=50", "vnum": 47.0, "done": true}, {"topic": "Need of Inheritance", "priority": "Must Watch", "why": "DRY principle in framework design", "link": "https://www.youtube.com/watch?v=SVXyBkwYySA&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=49", "vnum": 48.0, "done": true}, {"topic": "Single and Multilevel Inheritance", "priority": "Must Watch", "why": "BaseTest → BasePage → LoginPage", "link": "https://www.youtube.com/watch?v=W91VFTTAM3s&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=51", "vnum": 49.0, "done": true}, {"topic": "Multiple Inheritance", "priority": "Must Watch", "why": "Why Java uses interfaces instead", "link": "https://www.youtube.com/watch?v=NTN8lO6yeqw&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=52", "vnum": 50.0, "done": true}, {"topic": "this and super Method", "priority": "Must Watch", "why": "Constructor chaining in page hierarchy", "link": "https://www.youtube.com/watch?v=u2oT-qogaFI&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=53", "vnum": 51.0, "done": true}, {"topic": "Method Overriding", "priority": "Must Watch", "why": "Runtime polymorphism — ChromeDriver vs FirefoxDriver", "link": "https://www.youtube.com/watch?v=CLzgS08equQ&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=54", "vnum": 52.0, "done": true}, {"topic": "Packages", "priority": "Must Watch", "why": "Organise src/test/java structure", "link": "https://www.youtube.com/watch?v=Bua6LQO2vQ8&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=55", "vnum": 53.0, "done": true}, {"topic": "Access Modifiers", "priority": "Must Watch", "why": "Control visibility across framework layers", "link": "https://www.youtube.com/watch?v=mlVYooy93sE&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=56", "vnum": 54.0, "done": true}, {"topic": "Polymorphism", "priority": "Must Watch", "why": "WebDriver driver = new ChromeDriver()", "link": "https://www.youtube.com/watch?v=6U-0aUBiO5A&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=57", "vnum": 55.0, "done": true}, {"topic": "Dynamic Method Dispatch", "priority": "Must Watch", "why": "How Selenium picks right browser impl", "link": "https://www.youtube.com/watch?v=8C_YRYXCuwc&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=58", "vnum": 56.0, "done": true}, {"topic": "Final Keyword", "priority": "Must Watch", "why": "Constants in config, prevent override", "link": "https://www.youtube.com/watch?v=OBYeDzgsOxc&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=59", "vnum": 57.0, "done": true}, {"topic": "Object Class (equals / toString / hashCode)", "priority": "Skip", "why": "Skim — low direct use in Selenium", "link": "https://www.youtube.com/watch?v=dCt9sfZV8Sg&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=60", "vnum": 58.0, "done": true}]}, {"section": "Abstract & Interfaces", "items": [{"topic": "Upcasting and Downcasting", "priority": "Must Watch", "why": "WebDriver casting to JavascriptExecutor etc.", "link": "https://www.youtube.com/watch?v=Q8cTydJSawQ&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=61", "vnum": 59.0, "done": true}, {"topic": "Abstract Keyword", "priority": "Must Watch", "why": "Abstract BasePage with shared methods", "link": "https://www.youtube.com/watch?v=VJh2u7NLLDg&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=63", "vnum": 60.0, "done": true}, {"topic": "Inner Class", "priority": "Nice to Know", "why": "Nice to know — TestNG listener inner classes", "link": "https://www.youtube.com/watch?v=UVOztdkD7WE&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=64", "vnum": 61.0, "done": true}, {"topic": "Anonymous Inner Class", "priority": "Skip", "why": "Skip — rarely needed", "link": "https://www.youtube.com/watch?v=LNpUj80JLGI&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=65", "vnum": 62.0, "done": true}, {"topic": "Abstract and Anonymous Inner Class", "priority": "Skip", "why": "Skip", "link": "https://www.youtube.com/watch?v=4YnGBOyA2Q4&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=66", "vnum": 63.0, "done": true}, {"topic": "What is Interface", "priority": "Must Watch", "why": "WebDriver IS an interface — core concept", "link": "https://www.youtube.com/watch?v=A1uqgEz3hB0&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=67", "vnum": 64.0, "done": true}, {"topic": "More on Interfaces", "priority": "Must Watch", "why": "Default & static methods in interfaces", "link": "https://www.youtube.com/watch?v=NYuoR06Fyy4&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=69", "vnum": 65.0, "done": true}, {"topic": "Need of Interface", "priority": "Must Watch", "why": "Why Selenium is designed with interfaces", "link": "https://www.youtube.com/watch?v=AG_7wWFBquQ&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=68", "vnum": 66.0, "done": true}, {"topic": "What is Enum", "priority": "Nice to Know", "why": "Nice to know — browser/env config enums", "link": "https://www.youtube.com/watch?v=k0iTgTuiEGY&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=70", "vnum": 67.0, "done": true}]}, {"section": "Annotations & Lambda", "items": [{"topic": "What is Annotation", "priority": "Skip", "why": "Skip — learn @Test from TestNG directly", "link": "https://www.youtube.com/watch?v=1xuDEPftKV0&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=73", "vnum": 68.0, "done": false}, {"topic": "Functional Interface", "priority": "Nice to Know", "why": "Prerequisite for lambda", "link": "https://www.youtube.com/watch?v=Gs8ZPKCFlTc&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=75", "vnum": 69.0, "done": true}, {"topic": "Lambda Expression", "priority": "Nice to Know", "why": "Used in WebDriverWait: wait.until(d -> ...)", "link": "https://www.youtube.com/watch?v=aecXHkZ-kJY&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=76", "vnum": 70.0, "done": true}, {"topic": "Lambda Expression with Return", "priority": "Nice to Know", "why": "Good to know for custom waits", "link": "https://www.youtube.com/watch?v=IvXf2pDCr5s&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=77", "vnum": 71.0, "done": true}, {"topic": "Types of Interface", "priority": "Nice to Know", "why": "Skim", "link": "https://www.youtube.com/watch?v=gTn48ZpeWOs&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=74", "vnum": 72.0, "done": true}]}, {"section": "Exception Handling", "items": [{"topic": "What is Exception", "priority": "Must Watch", "why": "NoSuchElement, StaleElement — all exceptions", "link": "https://www.youtube.com/watch?v=5r_ERSm7NKE&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=78", "vnum": 75.0, "done": false}, {"topic": "Exception Handling using try-catch", "priority": "Must Watch", "why": "Stop test suite from crashing", "link": "https://www.youtube.com/watch?v=osEjmECD8bI&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=79", "vnum": 76.0, "done": false}, {"topic": "Try with Multiple Catch", "priority": "Must Watch", "why": "Handle different Selenium exceptions separately", "link": "https://www.youtube.com/watch?v=Ky8P70QlKNU&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=80", "vnum": 77.0, "done": false}, {"topic": "Exception Hierarchy", "priority": "Must Watch", "why": "Know checked vs unchecked exceptions", "link": "https://www.youtube.com/watch?v=IBttEEFkH_Y&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=81", "vnum": 78.0, "done": false}, {"topic": "Exception throw Keyword", "priority": "Must Watch", "why": "Throw custom errors from page methods", "link": "https://www.youtube.com/watch?v=kAOYeVYtukY&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=82", "vnum": 79.0, "done": false}, {"topic": "Custom Exception", "priority": "Must Watch", "why": "e.g. ElementNotFoundException in framework", "link": "https://www.youtube.com/watch?v=V_jVp6WdW0Y&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=83", "vnum": 80.0, "done": false}, {"topic": "Ducking Exception using throws", "priority": "Must Watch", "why": "Propagate exceptions up the call stack", "link": "https://www.youtube.com/watch?v=y7C2dRC9C44&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=84", "vnum": 81.0, "done": false}, {"topic": "User Input using BufferedReader and Scanner", "priority": "Nice to Know", "why": "Console param passing — good to know", "link": "https://www.youtube.com/watch?v=bwHr9G5VIls&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=85", "vnum": 82.0, "done": false}, {"topic": "Try with Resources", "priority": "Must Watch", "why": "Auto-close file/stream readers in test utils", "link": "https://www.youtube.com/watch?v=hVQR0ZHFk-o&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=86", "vnum": 83.0, "done": false}, {"topic": "Exception Exercises", "priority": "Must Watch", "why": "Practice — do it", "link": "", "vnum": 84.0, "done": false}]}, {"section": "Multithreading", "items": [{"topic": "Multiple Threads", "priority": "Skip", "why": "TestNG / Maven handle parallel runs for you", "link": "https://www.youtube.com/watch?v=UfMM924sBvg&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=88", "vnum": 85.0, "done": false}, {"topic": "Thread Priority and Sleep", "priority": "Skip", "why": "Use WebDriverWait instead of Thread.sleep", "link": "https://www.youtube.com/watch?v=yyLy-an_CXY&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=89", "vnum": 86.0, "done": false}, {"topic": "Runnable vs Thread", "priority": "Skip", "why": "Not needed for Selenium test design", "link": "https://www.youtube.com/watch?v=Z4KSgLpY0d8&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=90", "vnum": 87.0, "done": false}, {"topic": "Race Condition", "priority": "Skip", "why": "Framework-level concern, not test-script level", "link": "https://www.youtube.com/watch?v=7eV4nib3Cm8&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=91", "vnum": 88.0, "done": false}, {"topic": "Thread States", "priority": "Skip", "why": "Skip", "link": "https://www.youtube.com/watch?v=IWll7sfz3g0&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=92", "vnum": 89.0, "done": false}, {"topic": "Thread Exercises", "priority": "Skip", "why": "Skip", "link": "", "vnum": 90.0, "done": false}]}, {"section": "Collections API", "items": [{"topic": "Collection API", "priority": "Must Watch", "why": "findElements() → List<WebElement>; tabs → Set<String>", "link": "https://www.youtube.com/watch?v=Kn1RbK02YpM&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=93", "vnum": 91.0, "done": true}, {"topic": "Collection API (continued)", "priority": "Must Watch", "why": "ArrayList, HashMap in test data management", "link": "https://www.youtube.com/watch?v=Kn1RbK02YpM&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=93", "vnum": 92.0, "done": false}, {"topic": "Comparator vs Comparable", "priority": "Must Watch", "why": "Sort test results / element lists", "link": "https://www.youtube.com/watch?v=ZA2oNhtNk3w&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=97", "vnum": 93.0, "done": false}, {"topic": "Collections Exercises", "priority": "Must Watch", "why": "Practice — do it", "link": "", "vnum": 94.0, "done": false}]}, {"section": "Stream API", "items": [{"topic": "Need of Stream API", "priority": "Nice to Know", "why": "Learn after Selenium basics are solid", "link": "https://www.youtube.com/watch?v=B-U-ItdMUVw&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=98", "vnum": 95.0, "done": false}, {"topic": "forEach Method", "priority": "Nice to Know", "why": "Clean iteration over element lists", "link": "https://www.youtube.com/watch?v=Z4PIhp5ifcw&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=99", "vnum": 96.0, "done": false}, {"topic": "Stream API", "priority": "Nice to Know", "why": "Filter/map element lists elegantly", "link": "https://www.youtube.com/watch?v=ak3BxYzSqsQ&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=100", "vnum": 97.0, "done": false}, {"topic": "Map Filter Reduce Sorted", "priority": "Nice to Know", "why": "Optimise framework data processing", "link": "https://www.youtube.com/watch?v=FH-FmcjEKnc&list=PLsyeobzWxl7pe_IiTfNyr55kwJPWbgxB5&index=101", "vnum": 98.0, "done": false}]}];
+
+let state = {};
+let collapsedSections = {};
+let activeFilter = 'all';
+
+function slug(s) {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+}
+
+async function loadState() {
+  try {
+    const result = await window.storage.get('java-tracker-progress');
+    if (result && result.value) {
+      state = JSON.parse(result.value);
+    }
+  } catch (e) {
+    state = {};
+  }
+}
+
+async function saveState() {
+  try {
+    await window.storage.set('java-tracker-progress', JSON.stringify(state));
+  } catch (e) {
+    console.error('Save failed', e);
+  }
+}
+
+function badgeClass(priority) {
+  if (priority === 'Must Watch') return 'badge-must';
+  if (priority === 'Nice to Know') return 'badge-nice';
+  return 'badge-skip';
+}
+
+function render() {
+  const root = document.getElementById('checklistRoot');
+  root.innerHTML = '';
+
+  let totalDone = 0;
+  let totalItems = 0;
+  let totalVisible = 0;
+
+  data.forEach(section => {
+    const secId = slug(section.section);
+    const block = document.createElement('div');
+    block.className = 'section-block';
+
+    let secDone = 0;
+    let secTotal = section.items.length;
+    section.items.forEach(item => {
+      const id = slug(section.section + '__' + item.topic);
+      if (state[id]) secDone++;
+    });
+
+    const isCollapsed = !!collapsedSections[secId];
+
+    const header = document.createElement('div');
+    header.className = 'section-header';
+    header.innerHTML = `
+      <span class="section-title">${section.section}</span>
+      <span class="section-meta">
+        <span>${secDone}/${secTotal}</span>
+        <span class="section-chevron ${isCollapsed ? 'collapsed' : ''}">▾</span>
+      </span>
+    `;
+    header.addEventListener('click', () => {
+      collapsedSections[secId] = !collapsedSections[secId];
+      render();
+    });
+    block.appendChild(header);
+
+    const itemsWrap = document.createElement('div');
+    itemsWrap.className = 'section-items' + (isCollapsed ? ' collapsed' : '');
+
+    section.items.forEach(item => {
+      totalItems++;
+      const id = slug(section.section + '__' + item.topic);
+      const checked = !!state[id];
+      if (checked) totalDone++;
+
+      const matchesFilter = activeFilter === 'all' || item.priority === activeFilter;
+      if (matchesFilter) totalVisible++;
+
+      const el = document.createElement('div');
+      el.className = 'item' + (checked ? ' checked' : '') + (matchesFilter ? '' : ' hidden');
+
+      const hasLink = item.link && item.link.trim().length > 0;
+      const watchHref = hasLink ? item.link : '#';
+      const watchClass = hasLink ? 'watch-link' : 'watch-link disabled';
+
+      el.innerHTML = `
+        <div class="checkbox">${checked ? '✓' : ''}</div>
+        <div class="item-text">
+          <div class="item-title-row">
+            <span class="item-title">${item.topic}</span>
+            <span class="badge ${badgeClass(item.priority)}">${item.priority}</span>
+          </div>
+          <div class="item-why">${item.why}</div>
+        </div>
+        <a class="${watchClass}" href="${watchHref}" target="_blank" rel="noopener">▶ Watch</a>
+      `;
+      el.addEventListener('click', async (e) => {
+        if (e.target.closest('.watch-link')) return;
+        state[id] = !state[id];
+        await saveState();
+        render();
+      });
+      itemsWrap.appendChild(el);
+    });
+
+    block.appendChild(itemsWrap);
+    root.appendChild(block);
+  });
+
+  document.getElementById('progressText').textContent = `${totalDone} / ${totalItems} completed`;
+  const pct = totalItems ? Math.round((totalDone / totalItems) * 100) : 0;
+  document.getElementById('progressPct').textContent = `${pct}%`;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+document.getElementById('filterBar').addEventListener('click', (e) => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = btn.dataset.filter;
+  render();
+});
+
+async function init() {
+  await loadState();
+  document.getElementById('loadingMsg').style.display = 'none';
+  document.getElementById('checklistRoot').style.display = 'block';
+  render();
+}
+
+document.getElementById('resetBtn').addEventListener('click', async () => {
+  state = {};
+  await saveState();
+  render();
+});
+
+init();
+</script>
+
+</body>
+</html>
