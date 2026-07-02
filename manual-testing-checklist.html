@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual Testing Course — 2-Day Sprint</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --card: #171a21;
+    --accent: #ff8a5b;
+    --accent2: #5bc0ff;
+    --text: #e8e8ec;
+    --muted: #9a9ea8;
+    --done: #3ddc84;
+    --border: #262a33;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 20px 14px 60px;
+  }
+  h1 {
+    font-size: 1.3rem;
+    margin: 0 0 4px;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+  }
+  .progress-wrap {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 22px;
+    border: 1px solid var(--border);
+  }
+  .progress-bar-bg {
+    background: #232733;
+    border-radius: 8px;
+    height: 10px;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .progress-bar-fill {
+    background: linear-gradient(90deg, var(--accent), var(--done));
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .day-block {
+    margin-bottom: 26px;
+  }
+  .day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--border);
+  }
+  .day-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+  .day-total {
+    font-size: 0.8rem;
+    color: var(--accent2);
+    font-weight: 600;
+  }
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s, opacity 0.2s;
+  }
+  .item:active {
+    opacity: 0.7;
+  }
+  .item.checked {
+    border-color: var(--done);
+    background: #142019;
+  }
+  .checkbox {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: 2px solid var(--muted);
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  .item.checked .checkbox {
+    background: var(--done);
+    border-color: var(--done);
+    color: #0f1115;
+  }
+  .item-text {
+    flex: 1;
+  }
+  .item-title {
+    font-size: 0.92rem;
+    font-weight: 500;
+  }
+  .item.checked .item-title {
+    text-decoration: line-through;
+    color: var(--muted);
+  }
+  .item-duration {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .reset-btn {
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 10px;
+    font-size: 0.85rem;
+  }
+  .loading {
+    text-align: center;
+    color: var(--muted);
+    padding: 20px;
+    font-size: 0.85rem;
+  }
+</style>
+</head>
+<body>
+
+<h1>Manual Testing (Full Course)</h1>
+<div class="subtitle">2-Day Sprint Checklist · ~19h 41m total</div>
+
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span id="progressText">0 / 15 completed</span>
+    <span id="progressPct">0%</span>
+  </div>
+  <div class="progress-bar-bg">
+    <div class="progress-bar-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<div id="loadingMsg" class="loading">Loading your progress…</div>
+<div id="checklistRoot" style="display:none;"></div>
+
+<button class="reset-btn" id="resetBtn">Reset all progress</button>
+
+<script>
+const data = [
+  { day: 1, title: "Day 1 — Core Concepts", total: "9h 42m", items: [
+    { id: "p1", title: "Part-1: Intro to Software Testing", dur: "52:37" },
+    { id: "p2", title: "Part-2: SDLC, Waterfall, Spiral, V-Model", dur: "1:38:19" },
+    { id: "p3", title: "Part-3: Static/Dynamic Testing, QA vs QC", dur: "1:26:50" },
+    { id: "p4", title: "Part-4: System Testing Types", dur: "1:57:33" },
+    { id: "p5", title: "Part-5: Regression, Smoke, Exploratory Testing", dur: "1:21:17" },
+    { id: "p6", title: "Part-6: Test Case Design Techniques", dur: "47:18" },
+    { id: "p7", title: "Part-7: STLC", dur: "48:47" },
+    { id: "p8", title: "Part-8: Test Plan, RTM, Defect Reporting", dur: "1:25:42" },
+    { id: "p9", title: "Part-9: Defect Life Cycle, Metrics, Principles", dur: "43:55" },
+  ]},
+  { day: 2, title: "Day 2 — Live Project + Tools", total: "8h 38m", items: [
+    { id: "lp1", title: "Live Project: Intro, AUT, FRS, Test Plan", dur: "1:23:39" },
+    { id: "lp2", title: "Live Project: RTM, Test Cases", dur: "1:19:43" },
+    { id: "lp3", title: "Live Project: Review, Env Setup, Smoke/Sanity", dur: "1:22:31" },
+    { id: "lp4", title: "Live Project: Execution, Bug Reporting, Regression", dur: "1:06:17" },
+    { id: "agile", title: "Agile Scrum Methodology", dur: "1:18:29" },
+    { id: "jira", title: "Jira Tool | Agile Project Management", dur: "2:07:49" },
+  ]},
+];
+
+let state = {};
+
+async function loadState() {
+  try {
+    const result = await window.storage.get('mt-checklist-progress');
+    if (result && result.value) {
+      state = JSON.parse(result.value);
+    }
+  } catch (e) {
+    state = {};
+  }
+}
+
+async function saveState() {
+  try {
+    await window.storage.set('mt-checklist-progress', JSON.stringify(state));
+  } catch (e) {
+    console.error('Save failed', e);
+  }
+}
+
+function render() {
+  const root = document.getElementById('checklistRoot');
+  root.innerHTML = '';
+
+  let totalDone = 0;
+  let totalItems = 0;
+
+  data.forEach(day => {
+    const block = document.createElement('div');
+    block.className = 'day-block';
+
+    const header = document.createElement('div');
+    header.className = 'day-header';
+    header.innerHTML = `<span class="day-title">${day.title}</span><span class="day-total">${day.total}</span>`;
+    block.appendChild(header);
+
+    day.items.forEach(item => {
+      totalItems++;
+      const checked = !!state[item.id];
+      if (checked) totalDone++;
+
+      const el = document.createElement('div');
+      el.className = 'item' + (checked ? ' checked' : '');
+      el.innerHTML = `
+        <div class="checkbox">${checked ? '✓' : ''}</div>
+        <div class="item-text">
+          <div class="item-title">${item.title}</div>
+          <div class="item-duration">${item.dur}</div>
+        </div>
+      `;
+      el.addEventListener('click', async () => {
+        state[item.id] = !state[item.id];
+        await saveState();
+        render();
+      });
+      block.appendChild(el);
+    });
+
+    root.appendChild(block);
+  });
+
+  document.getElementById('progressText').textContent = `${totalDone} / ${totalItems} completed`;
+  const pct = totalItems ? Math.round((totalDone / totalItems) * 100) : 0;
+  document.getElementById('progressPct').textContent = `${pct}%`;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+async function init() {
+  await loadState();
+  document.getElementById('loadingMsg').style.display = 'none';
+  document.getElementById('checklistRoot').style.display = 'block';
+  render();
+}
+
+document.getElementById('resetBtn').addEventListener('click', async () => {
+  state = {};
+  await saveState();
+  render();
+});
+
+init();
+</script>
+
+</body>
+</html>
